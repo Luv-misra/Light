@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/widget_margin"
+    android:background="#55000000">
+
+
+
+        <Button
+            android:id="@+id/actionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="refresh"
+            android:text="Refresh"/>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="jbkjbjkbkbkb"
+            android:textStyle="bold"
+            android:tag="refresh"
+            android:textColor="#ffffff"
+            android:layout_below="@+id/actionButton"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:id="@+id/share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView"
+            android:tag="share"
+            android:layout_toEndOf="@+id/actionButton"
+            android:text="share" />
+
+        <Button
+            android:id="@+id/copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:tag="copy"
+            android:layout_toEndOf="@+id/share"
+            android:text="copy" />
+
+
+</RelativeLayout>
