@@ -1,5 +1,8 @@
 package com.example.luv.motivation;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.DownloadManager;
 import android.app.Service;
 import android.content.Context;
@@ -38,24 +41,16 @@ import okhttp3.ResponseBody;
 public class MainActivity extends AppCompatActivity {
 
     public TextView T;
-    Button B;
 
     String quote="";
     String prev_quote="";
-    String prev_author="";
-    TextView finalView;
+    int color1;
+    boolean BB;
     MyDBHandler handler;
     String flow = "FLOW" ;
-    CountDownTimer countdown;
     String author="";
     Boolean isError = false;
     EditText name;
-
-    public OkHttpClient okHttpClient;
-    public Request request;
-    public String url = "http://www.mocky.io/v2/58f166262400004706f696f6" ;
-    String s="";
-
 
 
     public class GetQuote extends AsyncTask<Void, Void, Void> {
@@ -202,12 +197,6 @@ public class MainActivity extends AppCompatActivity {
     public void nextQuote(View v)
     {
         Log.i("widget main_activity : ", "nextQuote: ");
-//        finalView.setText(handler.getQuoteById(numbers.quote_id));
-//        numbers.quote_id++;
-//        if( numbers.quote_id > handler.size() )
-//        {
-//            numbers.quote_id = 0;
-//        }
     }
 
     public void startService()
@@ -216,11 +205,72 @@ public class MainActivity extends AppCompatActivity {
         startService(intent);
     }
 
+    public void one_by_one(View v)
+    {
+        Intent intent = new Intent(this , Show_all_quotes_one_by_one.class);
+        numbers.one_by_one = 1;
+        Log.i("ONE", "one_by_one: going fo it ");
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //BACKGROUND
+
+
+        // Generate color1 before starting the thread
+        int red1 = (int)(Math.random() * 128 + 127);
+        int green1 = (int)(Math.random() * 128 + 127);
+        int blue1 = (int)(Math.random() * 128 + 127);
+        color1 = 0xff << 24 | (red1 << 16) |
+                (green1 << 8) | blue1;
+
+        BB = false;
+        new Thread() {
+            public void run() {
+                while(true) {
+                    try {
+                        if(BB )
+                        {
+                            Thread.sleep(1500);
+                        }
+                        BB = true;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+
+                            int red2 = (int)(Math.random() * 128 + 127);
+                            int green2 = (int)(Math.random() * 128 + 127);
+                            int blue2 = (int)(Math.random() * 128 + 127);
+                            int color2 = 0xff << 24 | (red2 << 16) |
+                                    (green2 << 8) | blue2;
+
+                            View v = findViewById(R.id.RR);
+                            ObjectAnimator anim = ObjectAnimator.ofInt(v, "backgroundColor", color1, color2);
+
+
+                            anim.setEvaluator(new ArgbEvaluator());
+                            anim.setRepeatCount(ValueAnimator.INFINITE);
+                            anim.setRepeatMode(ValueAnimator.REVERSE);
+                            anim.setDuration(1500);
+                            anim.start();
+
+                            color1 = color2;
+
+                        }
+                    });
+                }
+            }
+        }.start();
+
+        //BACKGROUND
+
         T= (TextView) findViewById(R.id.text);
         name = (EditText) findViewById(R.id.name);
         handler = new MyDBHandler(MainActivity.this,null,null,1);

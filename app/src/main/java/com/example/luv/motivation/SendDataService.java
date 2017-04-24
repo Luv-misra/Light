@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -49,6 +50,7 @@ public class SendDataService extends Service {
     String flow = "FLOW" ;
     String author="";
     Boolean isError = false;
+    ArrayList<Integer> arrayList = new ArrayList<>();
 
     public class GetQuote extends AsyncTask<Void, Void, Void> {
 
@@ -133,11 +135,21 @@ public class SendDataService extends Service {
         public Void doInBackground(Void... params) {
             if( isError == false )
             {
-                Log.i("here : ", "##################################");
-//                products P = new products(quote1,author1);
                 P.quote = quote1 ;
                 P.author = author1;
                 P.Bimg = ran();
+
+                while( arrayList.contains(P.Bimg)  )
+                {
+                    P.Bimg = ran();
+                }
+
+                arrayList.add(P.Bimg);
+                if( arrayList.size() > 10 )
+                {
+                    arrayList.remove(0);
+                }
+
                 handlerDB.addProduct(P);
             }
             return null;
@@ -145,6 +157,7 @@ public class SendDataService extends Service {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            Log.i("here : ", "##################################");
             Log.i("***************", "quote by "+author1+"added in db" );
         }
     }
@@ -195,10 +208,10 @@ public class SendDataService extends Service {
         }
         public void getQuote()
         {
-            CountDownTimer c = new CountDownTimer(20000 , 1000) {
+            CountDownTimer c = new CountDownTimer(200000 , 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    Log.i("timer : ", " fetching ");
+//                    Log.i("timer : ", " fetching ");
                     fillDB();
                 }
 
@@ -223,6 +236,7 @@ public class SendDataService extends Service {
 
                             Log.i("****************", "run: ");
                             P = new products("","");
+                            arrayList = numbers.already_taken_Bimg;
                             handlerDB = new MyDBHandler(SendDataService.this , null , null , 1);
                             getQuote();
                         //))

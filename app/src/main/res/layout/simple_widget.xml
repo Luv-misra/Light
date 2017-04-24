@@ -1,46 +1,100 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/widget_margin"
-    android:background="#55000000">
+    android:padding="@dimen/widget_margin">
 
 
 
-        <Button
-            android:id="@+id/actionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tag="refresh"
-            android:text="Refresh"/>
-        <TextView
-            android:id="@+id/textView"
+    <ImageView
+        android:id="@+id/back"
+        android:background="@drawable/relative_layout_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/b1" />
+
+
+
+    <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="jbkjbjkbkbkb"
+            android:layout_marginTop="5dp"
+            android:layout_height="match_parent"
             android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="18dp"
             android:tag="refresh"
             android:textColor="#ffffff"
-            android:layout_below="@+id/actionButton"
-            android:layout_alignParentStart="true" />
+            android:text="jbkjbjkbkbkb"
+            android:id="@+id/textView">
+        </TextView>
 
-        <Button
+    <ImageView
             android:id="@+id/share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/textView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:tag="share"
-            android:layout_toEndOf="@+id/actionButton"
-            android:text="share" />
-
-        <Button
-            android:id="@+id/copy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+            android:src="@drawable/share"
+            android:text="share"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/actionButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="7dp"
+        android:tag="refresh"
+        android:src="@drawable/like"
+        android:text="Refresh"/>
+
+
+    <ImageView
+            android:id="@+id/copy"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:tag="copy"
-            android:layout_toEndOf="@+id/share"
-            android:text="copy" />
+            android:layout_marginRight="7dp"
+            android:src="@drawable/copy"
+            android:text="copy"
+            android:layout_marginTop="7dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/showBack"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/showback" />
+
+    <ImageView
+        android:id="@+id/openApp"
+        android:layout_width="30dp"
+        android:src="@drawable/openapp"
+        android:layout_marginLeft="7dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="7dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="14dp"
+        android:layout_marginBottom="7dp"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 
 
 </RelativeLayout>

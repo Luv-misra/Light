@@ -3,6 +3,7 @@ package com.example.luv.motivation;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -146,16 +147,16 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     public int size()
     {
-        Integer res = 0;
+        int res = 0;
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_PRODUCTS;
         Cursor c = db.rawQuery(query,null);
-        if( c!=null )
+        if( c!=null && c.moveToFirst() )
         {
-            c.moveToLast();
-            res = Integer.parseInt(c.getString(c.getColumnIndex(COLUMN_ID)));
+            res = c.getCount();
         }
         return res;
+
     }
 
     //return quote by id
@@ -201,6 +202,34 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return allAuthors;
     }
 
+
+    //Return all quotes in DB as a string
+    public ArrayList<String> getAllAuthorsEFF()
+    {
+        ArrayList<String> allAuthors=new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_PRODUCTS + " WHERE 1 ";
+
+        //Cursor point to a location in your results
+        Cursor c = db.rawQuery(query,null);
+        //Move to the first row in your results
+        if( c.moveToFirst() )
+        {
+            while( !c.isAfterLast() )
+            {
+                if( c.getString(c.getColumnIndex(COLUMN_AUTHOR))!=null )
+                {
+                    allAuthors.add(c.getString(c.getColumnIndex(COLUMN_AUTHOR)));
+                }
+                c.moveToNext();
+            }
+        }
+
+
+        db.close();
+        return allAuthors;
+    }
+
     //Return all quotes in DB as a string
     public String getAllFavAuthors()
     {
@@ -210,16 +239,18 @@ public class MyDBHandler extends SQLiteOpenHelper {
         //Cursor point to a location in your results
         Cursor c = db.rawQuery(query,null);
         //Move to the first row in your results
-        c.moveToFirst();
 
-        while( !c.isAfterLast() )
+        if( c.moveToFirst() )
         {
-            if( c.getString(c.getColumnIndex(COLUMN_AUTHOR))!=null )
+            while( !c.isAfterLast() )
             {
-                allAuthors += c.getString(c.getColumnIndex(COLUMN_AUTHOR));
-                allAuthors += "##";
+                if( c.getString(c.getColumnIndex(COLUMN_AUTHOR))!=null )
+                {
+                    allAuthors += c.getString(c.getColumnIndex(COLUMN_AUTHOR));
+                    allAuthors += "##";
+                }
+                c.moveToNext();
             }
-            c.moveToNext();
         }
 
         db.close();

@@ -32,7 +32,7 @@
 
         <receiver android:name=".SimpleWidgetProvider">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
@@ -42,7 +42,7 @@
 
         <activity android:name=".show_all_quotes" />
         <activity android:name=".show_all_fav" />
-
+        <activity android:name=".Show_all_quotes_one_by_one"></activity>
     </application>
 
 </manifest>

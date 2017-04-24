@@ -29,28 +29,22 @@ public class CustomListAdapter extends ArrayAdapter<String> {
 
     Context context;
     ArrayList<String> author1;
-    ArrayList<String> quote1;
-    ArrayList<String> id1;
-    ArrayList<String> Bimg;
     ArrayList<products> allContents;
     MyDBHandler handler;
 
 
-    public CustomListAdapter(@NonNull Context context, @NonNull ArrayList<String> author,@NonNull ArrayList<String> quote , @NonNull ArrayList<String> id , @NonNull ArrayList<String> Bimg1 , @NonNull ArrayList<products> allContent1 ) {
+    public CustomListAdapter(@NonNull Context context, @NonNull ArrayList<String> author, @NonNull ArrayList<products> allContent1 ) {
         super(context, 0, author);
         Log.i("reach", "CustomListAdapter: ");
         this.context = context;
         author1 = author;
-        quote1 = quote;
-        id1 = id;
         allContents = allContent1;
-        this.Bimg = Bimg1;
     }
 
     @Override
     public View getView(int position,View view,ViewGroup parent) {
 
-        String back_name = "b" + Bimg.get(position);
+        String back_name = "b" + allContents.get(position).Bimg;
 
         Log.i("reach", "CustomListAdapter:1 ");
         View rowView = View.inflate(context, R.layout.single_quote_style, null);
@@ -67,13 +61,14 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         Log.i("reach", "CustomListAdapter: 2");
 
 
-        if( quote1.get(position)!=null )
+        if( allContents.get(position).quote!=null )
         {
             quoteA.setText(allContents.get(position).quote);
 
             int id = this.context.getResources().getIdentifier(this.context.getPackageName()+":drawable/" + back_name, null, null);
             Qback.setBackgroundResource(id);
 
+            Log.i("PPPPPPPPPPPP", back_name);
             if( allContents.get(position).favourite == 1 )
             {
                 LIKE.setImageResource(R.drawable.like);

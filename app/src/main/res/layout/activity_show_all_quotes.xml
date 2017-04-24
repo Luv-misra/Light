@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.luv.motivation.show_all_quotes">
 
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="breath in ... breath out"
+        />
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"

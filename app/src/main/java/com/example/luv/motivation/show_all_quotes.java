@@ -13,6 +13,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.os.AsyncTask;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,20 +39,15 @@ public class show_all_quotes extends AppCompatActivity {
     MyDBHandler handler;
     ListView list;
     ArrayList<String> author;
-    ArrayList<String> quote;
-    ArrayList<String> id;
     ArrayList<products> allContent;
-    ArrayList<String> Bimg;
     ImageView IV;
     Bitmap mbitmap;
     CustomListAdapter adapter;
+    Context context;
     View v;
 
     String[] author1={};
-    String[] id1={};
-    String[] Bimg1={};
-    String[] quotes1={};
-
+    boolean go = false;
 
     public void logString( String[] input )
     {
@@ -58,6 +55,47 @@ public class show_all_quotes extends AppCompatActivity {
         {
             Log.i("DISPLAYING STRING : ", input[i]  );
         }
+    }
+
+
+    public Bitmap drawTextToBitmap(Context mContext,  int resourceId,  String mText) {
+        try {
+            Resources resources = mContext.getResources();
+            float scale = resources.getDisplayMetrics().density;
+            Bitmap bitmap = BitmapFactory.decodeResource(resources, resourceId);
+
+            android.graphics.Bitmap.Config bitmapConfig =   bitmap.getConfig();
+            // set default bitmap config if none
+            if(bitmapConfig == null) {
+                bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+            }
+            // resource bitmaps are imutable,
+            // so we need to convert it to mutable one
+            bitmap = bitmap.copy(bitmapConfig, true);
+
+            Canvas canvas = new Canvas(bitmap);
+            // new antialised Paint
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            // text color - #3D3D3D
+            paint.setColor(Color.rgb(255,255,255));
+            // text size in pixels
+            paint.setTextSize((int) (20 * scale));
+            // text shadow
+            paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY);
+
+            // draw text to the Canvas center
+            Rect bounds = new Rect();
+            paint.getTextBounds(mText, 0, mText.length(), bounds);
+            int x = (bitmap.getWidth() - bounds.width())/6;
+            int y = (bitmap.getHeight() + bounds.height())/5;
+
+            canvas.drawText(mText, x * scale, y * scale, paint);
+
+            return bitmap;
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
 
@@ -119,8 +157,41 @@ public class show_all_quotes extends AppCompatActivity {
         ClipData clip = ClipData.newPlainText("",ans);
         clipboard.setPrimaryClip(clip);
 
+        Toast.makeText(this, "hererre", Toast.LENGTH_SHORT).show();
+        String back_name = "b"+Integer.toString(P.Bimg);
+//        String back_name = "b" + Bimg.get(position);
+        int id = this.getResources().getIdentifier(this.getPackageName()+":drawable/" + back_name, null, null);
+        mbitmap = drawTextToBitmap(this, id , "testing" );
+//        Bitmap bm = BitmapFactory.decodeResource(getResources(), id);
+//        mbitmap = mbitmap.copy(Bitmap.Config.ARGB_8888, true);
+//        IV.setImageBitmap(mbitmap);
     }
 
+
+    public class LongOperation extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            allContent = handler.getAllContents();
+            author = handler.getAllAuthorsEFF();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            adapter=new CustomListAdapter(context,author,allContent);
+            list=(ListView)findViewById(R.id.list);
+            list.setAdapter(adapter);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,38 +200,13 @@ public class show_all_quotes extends AppCompatActivity {
 
         handler = numbers.handler;
 
-//        allContent = new ArrayList<>();
-        allContent = handler.getAllContents();
-
+        context = this;
 
         IV = (ImageView)findViewById(R.id.test);
-
-        String author2 = handler.getAllAuthors();
-        author1 = author2.split("##");
-
-        String quote2 = handler.getAllQuotes();
-        quotes1 = quote2.split("##");
-
-        String Bimg2 = handler.getAllBimg();
-        Bimg1 = Bimg2.split("##");
-
-        Log.i("id jo aayi hai : ", Bimg2);
-
-        logString(author1);
-        logString(quotes1);
-
-//        String id2 = handler.getAllId();
-//        id1 = id2.split("##");
-
         list = (ListView) findViewById(R.id.list);
-        author = new ArrayList<>(Arrays.asList(author1));
-        quote = new ArrayList<>(Arrays.asList(quotes1));
-        Bimg = new ArrayList<>(Arrays.asList(Bimg1));
-//        id = new ArrayList<>(Arrays.asList(id1));
 
-        adapter=new CustomListAdapter(this,author,quote,id,Bimg,allContent);
-        list=(ListView)findViewById(R.id.list);
-        list.setAdapter(adapter);
+        LongOperation LO = new LongOperation();
+        LO.execute();
 
     }
 }
