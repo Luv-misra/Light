@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -171,26 +172,33 @@ public class show_all_quotes extends AppCompatActivity {
     public class LongOperation extends AsyncTask<Void, Void, Void> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.i("working","hue -1");
+            return;
+        }
+
+        @Override
         protected Void doInBackground(Void... params) {
 
+            Log.i("working","hue 0");
             allContent = handler.getAllContents();
+            Log.i("working","hue 0.5");
             author = handler.getAllAuthorsEFF();
-
+            Log.i("working","hue 0.9");
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            Log.i("working","hue 1");
             adapter=new CustomListAdapter(context,author,allContent);
+            Log.i("working","hue 2");
             list=(ListView)findViewById(R.id.list);
             list.setAdapter(adapter);
         }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
     }
 
     @Override
@@ -198,15 +206,22 @@ public class show_all_quotes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_all_quotes);
 
-        handler = numbers.handler;
+        View Sview = getWindow().getDecorView();
+        int FSCR = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        Sview.setSystemUiVisibility(FSCR);
+
+        handler = new MyDBHandler(this,null,null,1);
 
         context = this;
 
+        Log.i("working", " 1 ");
         IV = (ImageView)findViewById(R.id.test);
+        Log.i("working", " 2 ");
         list = (ListView) findViewById(R.id.list);
 
-        LongOperation LO = new LongOperation();
-        LO.execute();
+        Log.i("working", " 3 ");
+        new LongOperation().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
 
     }
 }

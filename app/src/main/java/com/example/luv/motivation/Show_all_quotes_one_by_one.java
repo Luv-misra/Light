@@ -103,6 +103,11 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
         PP = new products("no","no");
         PP = handler.getProductById(numbers.one_by_one);
 
+        if( PP==null )
+        {
+            numbers.one_by_one = 1 ;
+            PP = handler.getProductById(numbers.one_by_one);
+        }
         //to check for null one
 
         String back_name = "b" + PP.Bimg;
@@ -159,6 +164,10 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_all_quotes_one_by_one);
+        View Sview = getWindow().getDecorView();
+        int FSCR = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        Sview.setSystemUiVisibility(FSCR);
+
 
         Log.i("ONE", "onCreate: reached here");
 

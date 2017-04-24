@@ -92,15 +92,17 @@ public class show_all_fav extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_all_fav);
 
-        handler = numbers.handler;
+        View Sview = getWindow().getDecorView();
+        int FSCR = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        Sview.setSystemUiVisibility(FSCR);
+
+
+        handler = new MyDBHandler(this,null,null,1);
 
         allContent = handler.getAllFavContents();
 
-        String author2 = handler.getAllFavAuthors();
-        author1 = author2.split("##");
-
+        author = handler.getAllFavAuthorsOPT();
         list = (ListView) findViewById(R.id.list);
-        author = new ArrayList<>(Arrays.asList(author1));
 
         adapter=new FavCustomListAdapter(this,author,allContent);
         list=(ListView)findViewById(R.id.list);

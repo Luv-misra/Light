@@ -17,7 +17,7 @@ public class numbers {
     static int first_time_widget = 0;
     static int total_img = 50;
     static MyDBHandler handler;
-    static int now = 0;
+    static int now = 1;
     static int one_by_one = 0 ;
     static boolean setBack = true;
     static ArrayList<Integer> already_taken_Bimg = new ArrayList<>() ;

@@ -211,16 +211,13 @@ public class SendDataService extends Service {
             CountDownTimer c = new CountDownTimer(200000 , 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-//                    Log.i("timer : ", " fetching ");
                     fillDB();
                 }
 
                 @Override
-                public void onFinish() {
-//                    if( handlerDB.size() < 7000 )
-//                    {
-//                        getQuote();
-//                    }
+                public void onFinish()
+                {
+
                 }
             }.start();
 

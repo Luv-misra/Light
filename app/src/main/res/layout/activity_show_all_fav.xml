@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context="com.example.luv.motivation.show_all_quotes">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="NO FAVOURITE ... view more to make some"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:paddingTop="100dp"
+        android:textColor="#ffffff"
+        android:background="#333333"
+
+        />
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"

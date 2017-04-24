@@ -23,6 +23,8 @@
             android:layout_height="match_parent"
             android:textStyle="bold"
             android:gravity="center"
+            android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
             android:textSize="18dp"
             android:tag="refresh"
             android:textColor="#ffffff"
@@ -89,11 +91,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:gravity="center_horizontal"
+        android:minWidth="60dp"
         android:textSize="14dp"
         android:layout_marginBottom="7dp"
         android:textColor="#ffffff"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/right"
+        android:id="@+id/right"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="7dp"
+        android:layout_toRightOf="@+id/author"
+        android:layout_alignParentBottom="true"
+        />
+    <ImageView
+        android:layout_width="30dp"
+        android:id="@+id/left"
+        android:layout_height="30dp"
+        android:src="@drawable/left"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="7dp"
+        android:layout_toLeftOf="@+id/author"
+        android:layout_alignParentBottom="true"
+        />
 
 
 

@@ -14,90 +14,6 @@
         android:scaleType="center"
          />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_below="@+id/button2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="78dp" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="clicked"
-        android:text="Button"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="135dp"
-        android:layout_below="@+id/button7"
-        android:layout_toStartOf="@+id/text" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="logDB"
-        android:text="Button"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="317dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:layout_above="@+id/button2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp" />
-
-    <Button
-        android:id="@+id/ID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="show_by_id"
-        android:text="show"
-        android:layout_above="@+id/text"
-        android:layout_alignStart="@+id/fav" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="show_all_quotes"
-        android:text="show_all"
-        android:layout_above="@+id/text"
-        android:layout_toStartOf="@+id/button5" />
-
-    <Button
-        android:id="@+id/fav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:onClick="show_all_fav"
-        android:text="fav"
-        android:layout_alignBaseline="@+id/button5"
-        android:layout_alignBottom="@+id/button5"
-        android:layout_toEndOf="@+id/button2" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/button2"
-        android:layout_below="@+id/button2"
-        android:onClick="one_by_one"
-        android:text="one_by_one" />
 
     <TextView
         android:id="@+id/textView2"
@@ -121,5 +37,212 @@
         android:layout_marginRight="10dp"
         android:layout_alignBottom="@+id/textView2"
         />
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberSigned"
+        android:hint="enter #ID (INTEGER)"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/line"
+        android:layout_marginTop="15dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/name"
+        android:layout_marginTop="25dp"
+        android:id="@+id/RR_buttons"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/backcircle" />
+
+        <TextView
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/center"
+            android:layout_centerHorizontal="true"
+            />
+
+
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_above="@+id/center"
+            android:onClick="show_by_id"
+            android:layout_toRightOf="@+id/center"
+            android:layout_height="100dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000000"
+                android:alpha="0.4"/>
+            <ImageView
+                android:id="@+id/ID"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/id"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="show:ID"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_below="@+id/ID"
+                android:textColor="#ffffff"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:onClick="show_all_quotes"
+            android:layout_below="@+id/center"
+            android:layout_toLeftOf="@+id/center"
+            android:layout_height="100dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000000"
+                android:alpha="0.4"/>
+            <ImageView
+                android:id="@+id/button7"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/show_all"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="show all"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_below="@+id/button7"
+                android:textColor="#ffffff"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:onClick="show_all_fav"
+            android:layout_above="@+id/center"
+            android:layout_toLeftOf="@+id/center"
+            android:layout_height="100dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000000"
+                android:alpha="0.4"/>
+            <ImageView
+                android:id="@+id/fav"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/fav"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="FAV"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_below="@+id/fav"
+                android:textColor="#ffffff"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:onClick="one_by_one"
+            android:layout_below="@+id/center"
+            android:layout_toRightOf="@+id/center"
+            android:layout_height="100dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000000"
+                android:alpha="0.4"/>
+            <ImageView
+                android:id="@+id/button5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/one_by_one"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="1 by 1"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_below="@+id/button5"
+                android:textColor="#ffffff"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/line"
+        android:layout_marginTop="15dp"
+        android:id="@+id/RR_quote"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:background="#000000"
+            android:alpha="0.5"
+            android:layout_margin="10dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Hello World!"
+            android:layout_margin="12dp"
+            android:textSize="30dp"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            />
+        <ImageView
+            android:layout_width="60dp"
+            android:src="@drawable/error"
+            android:onClick="cancel_quote"
+            android:layout_alignParentRight="true"
+            android:layout_height="60dp" />
+
+
+    </RelativeLayout>
+
+
 
 </RelativeLayout>

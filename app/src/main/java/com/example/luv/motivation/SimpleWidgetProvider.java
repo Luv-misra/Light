@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-import me.grantland.widget.AutofitTextView;
 
 /**
  * Created by luv on 17/4/17.
@@ -49,6 +48,33 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         }
 
         numbers.now++;
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Log.i("SP", " 3 ");
+        editor.putString("Qnow",Integer.toString(numbers.now));
+        Log.i("SP", " 4 ");
+        editor.commit();
+        Log.i("SP", " 5 ");
+    }
+    public void prevQuote( Context context )
+    {
+        sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        if( !sharedPreferences.contains("Qnow") )
+        {
+            Log.i("SP", " 1 ");
+            sharedPreferences.edit().putString("Qnow",Integer.toString(numbers.now)).apply();
+        }
+        else
+        {
+            Log.i("SP", " 2 ");
+            numbers.now = Integer.parseInt(sharedPreferences.getString("Qnow",""));
+        }
+
+        numbers.now--;
+        if( numbers.now <= 0 )
+        {
+            numbers.now++;
+        }
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Log.i("SP", " 3 ");
@@ -90,6 +116,16 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
 
     public void share( Context context )
     {
+
+//        AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+//        //retrieve a ref to the manager so we can pass a view update
+//
+//        Intent i = new Intent();
+//        i.setClassName(context.getPackageName(), context.getPackageName().getClass().toString());
+//        PendingIntent myPI = PendingIntent.getService(context, 0, i, 0);
+        //intent to start service
+
+
         handler = new MyDBHandler(context,null,null,1);
         P = handler.getProductById(numbers.now);
         String res = P.quote ;
@@ -101,6 +137,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         {
             res += "\n\n"+"by : "+P.author;
         }
+        Log.i("ONONONON", "share: going to share ");
         ShareIt SI = new ShareIt(context,res);
     }
 
@@ -216,6 +253,20 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                     5, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setOnClickPendingIntent(R.id.actionButton, pendingIntent5);
 
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            intent.putExtra("key","19");
+            PendingIntent pendingIntent6 = PendingIntent.getBroadcast(context,
+                    6, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.right, pendingIntent6);
+
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            intent.putExtra("key","11");
+            PendingIntent pendingIntent7 = PendingIntent.getBroadcast(context,
+                    7, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.left, pendingIntent7);
+
 
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
@@ -242,17 +293,54 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             if(value.equals("19"))
             {
                 Log.i("ONONONON", " 19191919 ");
-                nextQuote(context);
+                try
+                {
+                    nextQuote(context);
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(context, "problem", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+            else if(value.equals("11"))
+            {
+                Log.i("ONONONON", " 11111111 ");
+                try
+                {
+                    prevQuote(context);
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(context, "problem", Toast.LENGTH_SHORT).show();
+                }
+
             }
             else if(value.equals("33"))
             {
                 Log.i("ONONONON", " 33333333 ");
-                share(context);
+                try
+                {
+                    share(context);
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(context, "problem", Toast.LENGTH_SHORT).show();
+                }
+
             }
             else if(value.equals("21"))
             {
                 Log.i("ONONONON", " 21212121 ");
-                copy(context);
+                try
+                {
+                    copy(context);
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(context, "problem", Toast.LENGTH_SHORT).show();
+                }
+
             }
             else if(value.equals("89"))
             {
@@ -262,12 +350,26 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             else if(value.equals("74"))
             {
                 Log.i("ONONONON", " 74747474 ");
-                openApp(context);
+                try
+                {
+                    openApp(context);
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(context, "problem", Toast.LENGTH_SHORT).show();
+                }
             }
             else if(value.equals("52"))
             {
                 Log.i("ONONONON", " 52525252 ");
-                fav(context);
+                try
+                {
+                    fav(context);
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(context, "problem", Toast.LENGTH_SHORT).show();
+                }
             }
         }
 

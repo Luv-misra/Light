@@ -42,7 +42,8 @@
 
         <activity android:name=".show_all_quotes" />
         <activity android:name=".show_all_fav" />
-        <activity android:name=".Show_all_quotes_one_by_one"></activity>
+        <activity android:name=".Show_all_quotes_one_by_one" />
+        <activity android:name=".WelcomeActivity"></activity>
     </application>
 
 </manifest>

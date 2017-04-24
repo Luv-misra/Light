@@ -17,11 +17,17 @@ import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.plattysoft.leonids.ParticleSystem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,16 +44,21 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import static android.R.attr.animation;
+
 public class MainActivity extends AppCompatActivity {
 
     public TextView T;
 
     String quote="";
+    ImageView IV_back;
     String prev_quote="";
     int color1;
     boolean BB;
     MyDBHandler handler;
     String flow = "FLOW" ;
+    RelativeLayout RR_quote;
+    boolean happy = true;
     String author="";
     Boolean isError = false;
     EditText name;
@@ -141,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -148,56 +161,73 @@ public class MainActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void fillDB()
-    {
-        int count = 0;
-        while( count<10 && isNetworkAvailable() )
-        {
-            new GetQuote().execute(null,null,null);
-            count++;
-        }
-    }
 
     public void show_by_id(View v)
     {
+        Log.i("show_by_id", "show_by_id: ");
         Integer i;
-        i = Integer.parseInt(name.getText().toString()) ;
-        String temp = handler.getQuoteById(i);
-        T.setText(temp);
-    }
-
-    public void logDB(View v)
-    {
-        String temp = handler.getAllQuotes();
-        T.setText(temp);
-        String[] each = temp.split("##");
-        for( int i=0 ; i<each.length ; i++ )
-        {
-            Log.i("all quotes : ", each[i] );
+        RR_quote.setVisibility(View.VISIBLE);
+        Log.i("show_by_id", "show_by_id: ");
+//        handler = new MyDBHandler(this,null,null,1);
+        String ans = "-1";
+        try {
+            ans = name.getText().toString();
+            i = Integer.parseInt(ans) ;
         }
+        catch (Exception e)
+        {
+            ans = "-1";
+            i = -1;
+        }
+
+        Log.i("show_by_id", "show_by_id: "+i.toString());
+        String temp = "invalid or overflow";
+        try
+        {
+            temp = handler.getQuoteById(i);
+
+        }
+        catch ( Exception e )
+        {
+            temp = "invalid or overflow";
+        }
+        if( temp == null || temp.equals("") )
+        {
+            temp = "invalid or overflow";
+        }
+        if( !temp.equals("invalid or overflow") )
+        {
+            if(happy)
+            {
+                new ParticleSystem(this, 100, R.drawable.par , 500 )
+                        .setSpeedRange(0.1f, 0.5f)
+                        .oneShot(v, 100);
+
+            }
+            happy = false;
+        }
+        T.setText(temp);
     }
 
-    public void clicked(View v)
+    public void cancel_quote(View v)
     {
-        Log.i(flow, "clicked the button");
-        fillDB();
+        RR_quote.setVisibility(View.GONE);
+        happy = true;
     }
 
     public void show_all_quotes( View v )
     {
         Intent i = new Intent(this , show_all_quotes.class);
+        startService();
         startActivity(i);
     }
     public void show_all_fav( View v )
     {
         Intent i = new Intent(this , show_all_fav.class);
+        startService();
         startActivity(i);
     }
 
-    public void nextQuote(View v)
-    {
-        Log.i("widget main_activity : ", "nextQuote: ");
-    }
 
     public void startService()
     {
@@ -213,15 +243,52 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void rotate()
+    {
+
+        ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat( IV_back ,
+                "rotation", 0f, 360f);
+        imageViewObjectAnimator.setRepeatCount(ObjectAnimator.INFINITE);
+        imageViewObjectAnimator.setRepeatMode(ObjectAnimator.RESTART);
+        imageViewObjectAnimator.setInterpolator(new AccelerateInterpolator());
+        imageViewObjectAnimator.setDuration(70000);
+        imageViewObjectAnimator.start();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        View Sview = getWindow().getDecorView();
+        int FSCR = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        Sview.setSystemUiVisibility(FSCR);
+
+
+        PrefManager prefManager = new PrefManager(this);
+
+        IV_back = (ImageView)findViewById(R.id.backcircle);
+
+        startService();
+
+        RR_quote = (RelativeLayout) findViewById(R.id.RR_quote);
+
+        if (prefManager.isFirstTimeLaunch())
+        {
+            Intent in = new Intent(this, WelcomeActivity.class);
+            Log.i("WELCOME", "onCreate: going in for welcome ");
+            startActivity(in);
+            Log.i("WELCOME", "onCreate:out of it Welcome ");
+        }
+
+        T= (TextView) findViewById(R.id.text);
+        name = (EditText) findViewById(R.id.name);
+        handler = new MyDBHandler(MainActivity.this,null,null,1);
+        numbers.handler = handler;
+
+
         //BACKGROUND
-
-
         // Generate color1 before starting the thread
         int red1 = (int)(Math.random() * 128 + 127);
         int green1 = (int)(Math.random() * 128 + 127);
@@ -230,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
                 (green1 << 8) | blue1;
 
         BB = false;
+
         new Thread() {
             public void run() {
                 while(true) {
@@ -271,11 +339,6 @@ public class MainActivity extends AppCompatActivity {
 
         //BACKGROUND
 
-        T= (TextView) findViewById(R.id.text);
-        name = (EditText) findViewById(R.id.name);
-        handler = new MyDBHandler(MainActivity.this,null,null,1);
-        numbers.handler = handler;
-//        finalView = (TextView) findViewById(R.id.finalView);
-        startService();
+
     }
 }

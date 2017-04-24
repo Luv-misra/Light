@@ -257,6 +257,40 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return allAuthors;
     }
 
+    public ArrayList<String> getAllFavAuthorsOPT()
+    {
+        ArrayList<String> allAuthors = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_FAVOURITE + "=\"" + "1" + "\";";
+        //Cursor point to a location in your results
+        Cursor c = db.rawQuery(query,null);
+        //Move to the first row in your results
+
+        try
+        {
+            if( c.moveToFirst() )
+            {
+                while( !c.isAfterLast() )
+                {
+                    if( c.getString(c.getColumnIndex(COLUMN_AUTHOR))!=null )
+                    {
+                        allAuthors.add( c.getString(c.getColumnIndex(COLUMN_AUTHOR)) );
+
+                    }
+                    c.moveToNext();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+
+
+        db.close();
+        return allAuthors;
+    }
+
     //return product by id
     public products getProductById( Integer i )
     {
