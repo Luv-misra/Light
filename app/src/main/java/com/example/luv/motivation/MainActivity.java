@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,123 +54,30 @@ public class MainActivity extends AppCompatActivity {
 
     String quote="";
     ImageView IV_back;
-    String prev_quote="";
-    int color1;
-    boolean BB;
     MyDBHandler handler;
-    String flow = "FLOW" ;
+    ImageView imageview;
     RelativeLayout RR_quote;
     boolean happy = true;
+    boolean displaying = false;
     String author="";
-    Boolean isError = false;
     EditText name;
-
-
-    public class GetQuote extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        public Void doInBackground(Void... params) {
-
-            //http://api.forismatic.com/api/1.0/
-            Map<String,String> m = new HashMap<>();
-
-            JSONObject jsonObject = new JSONObject(m);
-
-            Log.i("flow", "doInBackground: for GetQuote ");
-            String url = "http://api.forismatic.com/api/1.0/";
-            Response res = NetworkUtilities.postRequest(getApplicationContext(),jsonObject.toString(),url);
-
-            if(res == null){
-                Log.i("flow", "doInBackground: recieved null ");
-            }else{
-                Log.i("flow", "doInBackground: recieved data" );
-                ResponseBody jsonData = res.body();
-                try {
-                    prev_quote = quote;
-                    JSONObject Jobject = new JSONObject(jsonData.string());
-                    quote  = Jobject.getString("quoteText");
-                    author = Jobject.getString("quoteAuthor");
-
-                    if( quote.equals(prev_quote) )
-                    {
-                        isError = true ;
-                    }
-                    if( quote == null )
-                    {
-                        isError = true;
-                    }
-                    else
-                    {
-                        isError = false;
-                    }
-                } catch (JSONException e) {
-                    isError = true;
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    isError = true;
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Log.i("flow", "quote : "+quote+"\n"+"by : "+author);
-            if( isError==false && !prev_quote.equals(quote))
-            {
-                Log.i(flow, "got the new quote");
-                putInDB temp = new putInDB();
-                temp.quote1 = quote;
-                temp.author1 = author;
-                Log.i("flow", "temp.quote1 = "+temp.quote1);
-                Log.i("flow", "temp.author1 = "+temp.author1);
-                temp.execute();
-            }
-        }
-    }
-
-
-    public class putInDB extends AsyncTask<Void, Void, Void> {
-
-        public String quote1;
-        public String author1;
-
-        @Override
-        public Void doInBackground(Void... params) {
-            if( isError == false )
-            {
-                products P = new products(quote1,author1);
-                handler.addProduct(P);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Log.i(flow, "quote by "+author1+"added in db" );
-        }
-    }
-
-
-
-
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 
 
     public void show_by_id(View v)
     {
+        if( displaying )
+        {
+            return;
+        }
+        RR_quote.setVisibility(View.VISIBLE);
+        displaying = true;
+    }
+
+    public void show_quote_by_id_tick( View v )
+    {
         Log.i("show_by_id", "show_by_id: ");
         Integer i;
-        RR_quote.setVisibility(View.VISIBLE);
         Log.i("show_by_id", "show_by_id: ");
-//        handler = new MyDBHandler(this,null,null,1);
         String ans = "-1";
         try {
             ans = name.getText().toString();
@@ -204,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                         .oneShot(v, 100);
 
             }
-            happy = false;
+//            happy = false;
         }
         T.setText(temp);
     }
@@ -213,19 +122,30 @@ public class MainActivity extends AppCompatActivity {
     {
         RR_quote.setVisibility(View.GONE);
         happy = true;
+        displaying = false;
     }
 
     public void show_all_quotes( View v )
     {
+        if( displaying )
+        {
+            return;
+        }
         Intent i = new Intent(this , show_all_quotes.class);
         startService();
         startActivity(i);
+        finish();
     }
     public void show_all_fav( View v )
     {
+        if( displaying )
+        {
+            return;
+        }
         Intent i = new Intent(this , show_all_fav.class);
         startService();
         startActivity(i);
+        finish();
     }
 
 
@@ -237,10 +157,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void one_by_one(View v)
     {
+        if( displaying )
+        {
+            return;
+        }
         Intent intent = new Intent(this , Show_all_quotes_one_by_one.class);
         numbers.one_by_one = 1;
         Log.i("ONE", "one_by_one: going fo it ");
         startActivity(intent);
+        finish();
     }
 
     public void rotate()
@@ -255,6 +180,77 @@ public class MainActivity extends AppCompatActivity {
         imageViewObjectAnimator.start();
     }
 
+
+    void startBACK()
+    {
+
+        Log.i("AAAA", "startBACK: 4 ");
+        String back_name = "e" + Integer.toString(numbers.back_img);
+        numbers.back_img++;
+        if( numbers.back_img > numbers.total_back_img )
+        {
+            numbers.back_img = 1;
+        }
+        int id123 = MainActivity.this.getResources().getIdentifier(MainActivity.this.getPackageName()+":drawable/" + back_name, null, null);
+        imageview.setImageResource(id123);
+
+        Animation fadeIn = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fadein);
+        imageview.startAnimation(fadeIn);
+
+        Log.i("AAAA", "startBACK: 1 ");
+        fadeIn.setRepeatCount(Animation.INFINITE);
+        fadeIn.getRepeatMode();
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+                Log.i("AAAA", "startBACK: 2 ");
+
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                final Animation fadeOut = AnimationUtils.loadAnimation(MainActivity.this, R.anim.fadeout);
+                Log.i("AAAA", "startBACK: 3 ");
+
+
+                CountDownTimer c2 = new CountDownTimer(6300,6300) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        imageview.startAnimation(fadeOut);
+
+                    }
+                }.start();
+
+
+                CountDownTimer c = new CountDownTimer(9000,9000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        startBACK();
+
+                    }
+                }.start();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -264,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
         View Sview = getWindow().getDecorView();
         int FSCR = View.SYSTEM_UI_FLAG_FULLSCREEN;
         Sview.setSystemUiVisibility(FSCR);
-
+        imageview = (ImageView) findViewById(R.id.imageView);
 
         PrefManager prefManager = new PrefManager(this);
 
@@ -288,56 +284,59 @@ public class MainActivity extends AppCompatActivity {
         numbers.handler = handler;
 
 
-        //BACKGROUND
-        // Generate color1 before starting the thread
-        int red1 = (int)(Math.random() * 128 + 127);
-        int green1 = (int)(Math.random() * 128 + 127);
-        int blue1 = (int)(Math.random() * 128 + 127);
-        color1 = 0xff << 24 | (red1 << 16) |
-                (green1 << 8) | blue1;
+        startBACK();
 
-        BB = false;
-
-        new Thread() {
-            public void run() {
-                while(true) {
-                    try {
-                        if(BB )
-                        {
-                            Thread.sleep(1500);
-                        }
-                        BB = true;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-
-                            int red2 = (int)(Math.random() * 128 + 127);
-                            int green2 = (int)(Math.random() * 128 + 127);
-                            int blue2 = (int)(Math.random() * 128 + 127);
-                            int color2 = 0xff << 24 | (red2 << 16) |
-                                    (green2 << 8) | blue2;
-
-                            View v = findViewById(R.id.RR);
-                            ObjectAnimator anim = ObjectAnimator.ofInt(v, "backgroundColor", color1, color2);
-
-
-                            anim.setEvaluator(new ArgbEvaluator());
-                            anim.setRepeatCount(ValueAnimator.INFINITE);
-                            anim.setRepeatMode(ValueAnimator.REVERSE);
-                            anim.setDuration(1500);
-                            anim.start();
-
-                            color1 = color2;
-
-                        }
-                    });
-                }
-            }
-        }.start();
-
-        //BACKGROUND
+//        //BACKGROUND
+//        // Generate color1 before starting the thread
+//        int red1 = (int)(Math.random() * 128 + 127);
+//        int green1 = (int)(Math.random() * 128 + 127);
+//        int blue1 = (int)(Math.random() * 128 + 127);
+//        color1 = 0xff << 24 | (red1 << 16) |
+//                (green1 << 8) | blue1;
+//
+//        BB = false;
+//
+//
+//        new Thread() {
+//            public void run() {
+//                while(true) {
+//                    try {
+//                        if(BB )
+//                        {
+//                            Thread.sleep(1500);
+//                        }
+//                        BB = true;
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    runOnUiThread(new Runnable() {
+//                        public void run() {
+//
+//                            int red2 = (int)(Math.random() * 128 + 127);
+//                            int green2 = (int)(Math.random() * 128 + 127);
+//                            int blue2 = (int)(Math.random() * 128 + 127);
+//                            int color2 = 0xff << 24 | (red2 << 16) |
+//                                    (green2 << 8) | blue2;
+//
+//                            View v = findViewById(R.id.RR);
+//                            ObjectAnimator anim = ObjectAnimator.ofInt(v, "backgroundColor", color1, color2);
+//
+//
+//                            anim.setEvaluator(new ArgbEvaluator());
+//                            anim.setRepeatCount(ValueAnimator.INFINITE);
+//                            anim.setRepeatMode(ValueAnimator.REVERSE);
+//                            anim.setDuration(1500);
+//                            anim.start();
+//
+//                            color1 = color2;
+//
+//                        }
+//                    });
+//                }
+//            }
+//        }.start();
+//
+//        //BACKGROUND
 
 
     }

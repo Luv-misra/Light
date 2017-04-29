@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -44,14 +47,14 @@ public class CustomListAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position,View view,ViewGroup parent) {
 
-        String back_name = "b" + allContents.get(position).Bimg;
+//        String back_name = "b" + allContents.get(position).Bimg;
 
         Log.i("reach", "CustomListAdapter:1 ");
-        View rowView = View.inflate(context, R.layout.single_quote_style, null);
+        View rowView = View.inflate(context, R.layout.single_quote_style_all, null);
         Log.i("reach", "CustomListAdapter: 1.5");
         TextView quoteA = (TextView) rowView.findViewById(R.id.quote);
         TextView authorA = (TextView) rowView.findViewById(R.id.author);
-        RelativeLayout Qback = (RelativeLayout) rowView.findViewById(R.id.RR);
+        TextView ID = (TextView) rowView.findViewById(R.id.ID);
 
         ImageView LIKE  = (ImageView) rowView.findViewById(R.id.like);
         ImageView SHARE = (ImageView) rowView.findViewById(R.id.share);
@@ -63,12 +66,18 @@ public class CustomListAdapter extends ArrayAdapter<String> {
 
         if( allContents.get(position).quote!=null )
         {
-            quoteA.setText(allContents.get(position).quote);
 
-            int id = this.context.getResources().getIdentifier(this.context.getPackageName()+":drawable/" + back_name, null, null);
-            Qback.setBackgroundResource(id);
+//            int red2 = (int)(Math.random() * 128 + 127);
+//                            int green2 = (int)(Math.random() * 128 + 127);
+//                            int blue2 = (int)(Math.random() * 128 + 127);
+//                            int color2 = 0xff << 24 | (red2 << 16) |
+//                                    (green2 << 8) | blue2;
+//
+//
+////            int id = this.context.getResources().getIdentifier(this.context.getPackageName()+":drawable/" + back_name, null, null);
+//            Qback.setBackgroundColor(color2);
 
-            Log.i("PPPPPPPPPPPP", back_name);
+//            Log.i("PPPPPPPPPPPP", back_name);
             if( allContents.get(position).favourite == 1 )
             {
                 LIKE.setImageResource(R.drawable.like);
@@ -77,6 +86,8 @@ public class CustomListAdapter extends ArrayAdapter<String> {
             LIKE.setTag(allContents.get(position)._id);
             SHARE.setTag(allContents.get(position)._id);
             COPY.setTag(allContents.get(position)._id);
+            quoteA.setText( "\"" +  allContents.get(position).quote + "\"");
+            ID.setText("#"+allContents.get(position)._id);
 
         }
 

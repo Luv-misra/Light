@@ -11,10 +11,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -29,13 +35,27 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
     Context context;
     products PP;
     View v;
+    ImageView liking;
+    ImageView next;
+    ImageView prev;
+    TextView next_sc;
+    TextView prev_sc;
 
+
+    public void liking()
+    {
+        liking.setVisibility(View.VISIBLE);
+        animateHeart(liking);
+    }
 
     public void liked( View v )
     {
         Toast.makeText(this, "liked "+v.getTag(), Toast.LENGTH_SHORT).show();
         handler.toggleLike(v.getTag().toString());
-
+        if( PP.favourite == 0 )
+        {
+            liking();
+        }
         setView();
 
     }
@@ -83,22 +103,44 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
     }
 
 
-    void next(View v)
-    {
-        numbers.one_by_one++;
-        setView();
+    public void animateHeart(final ImageView view) {
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        prepareAnimation(scaleAnimation);
+
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
+        prepareAnimation(alphaAnimation);
+
+        AnimationSet animation = new AnimationSet(true);
+        animation.addAnimation(alphaAnimation);
+        animation.addAnimation(scaleAnimation);
+        animation.setDuration(400);
+        animation.setFillAfter(true);
+
+        view.startAnimation(animation);
+
     }
-    void prev(View v)
-    {
-        numbers.one_by_one--;
-        if( numbers.one_by_one<=0 )
-        {
-            numbers.one_by_one = 1 ;
-        }
-        setView();
+
+    private Animation prepareAnimation(Animation animation){
+        animation.setRepeatCount(1);
+        animation.setRepeatMode(Animation.REVERSE);
+        return animation;
     }
+
+
     void setView()
     {
+
+        if( numbers.H )
+        {
+            next.setVisibility(View.GONE);
+            prev.setVisibility(View.GONE);
+        }
+        else
+        {
+            next.setVisibility(View.VISIBLE);
+            prev.setVisibility(View.VISIBLE);
+        }
 
         PP = new products("no","no");
         PP = handler.getProductById(numbers.one_by_one);
@@ -130,8 +172,8 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
         {
             quoteA.setText(PP.quote);
 
-            int id = this.context.getResources().getIdentifier(this.context.getPackageName()+":drawable/" + back_name, null, null);
-            Qback.setBackgroundResource(id);
+//            int id = this.context.getResources().getIdentifier(this.context.getPackageName()+":drawable/" + back_name, null, null);
+//            Qback.setBackgroundResource(id);
 
             Log.i("ONE 1 ", back_name);
             if( PP.favourite == 1 )
@@ -159,6 +201,12 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
     }
 
 
+    public void toggle_H( View v )
+    {
+        numbers.H = !numbers.H ;
+        setView();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +216,57 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
         int FSCR = View.SYSTEM_UI_FLAG_FULLSCREEN;
         Sview.setSystemUiVisibility(FSCR);
 
+        next = (ImageView) findViewById(R.id.next);
+        prev = (ImageView) findViewById(R.id.prev);
+        next_sc = (TextView) findViewById(R.id.right_sc);
+        prev_sc = (TextView) findViewById(R.id.left_sc);
+        liking = (ImageView) findViewById(R.id.liking);
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numbers.one_by_one++;
+                setView();
+            }
+        });
+
+
+        prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                numbers.one_by_one--;
+                if( numbers.one_by_one<=0 )
+                {
+                    numbers.one_by_one = 1 ;
+                }
+                setView();
+
+            }
+        });
+
+        next_sc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numbers.one_by_one++;
+                setView();
+            }
+        });
+
+
+        prev_sc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                numbers.one_by_one--;
+                if( numbers.one_by_one<=0 )
+                {
+                    numbers.one_by_one = 1 ;
+                }
+                setView();
+
+            }
+        });
 
         Log.i("ONE", "onCreate: reached here");
 
@@ -176,5 +275,12 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
         handler = new MyDBHandler(this,null,null,1);
         setView();
 
+    }
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        Intent setIntent = new Intent(this,MainActivity.class);
+        startActivity(setIntent);
+        finish();
     }
 }

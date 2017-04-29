@@ -9,49 +9,47 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@drawable/relative_layout_background"
-        android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="match_parent"
         android:scaleType="centerCrop"
         android:id="@+id/RR"
         android:layout_height="wrap_content"
-        android:minHeight="300dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/ID"
+            />
 
         <TextView
             android:id="@+id/quote"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="7dp"
             android:gravity="center"
             android:layout_marginRight="7dp"
-            android:layout_marginTop="20dp"
-            android:text="TextView"
+            android:text="TextView quote"
             android:textColor="#ffffff"
             android:textSize="25sp"
-            android:layout_below="@+id/author"
-            android:layout_centerHorizontal="true"
-            />
+            android:layout_below="@+id/line2"
+            android:layout_centerHorizontal="true" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/relativeLayout2"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true">
+            android:layout_below="@+id/quote"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="30dp"
+            android:layout_centerHorizontal="true">
 
             <ImageView
                 android:id="@+id/like"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="7dp"
                 android:layout_alignParentStart="true"
                 android:onClick="liked"
                 android:src="@drawable/like_no"
@@ -59,7 +57,7 @@
             <ImageView
                 android:id="@+id/share"
                 android:layout_width="30dp"
-                android:layout_marginLeft="7dp"
+                android:layout_marginLeft="47dp"
                 android:layout_height="30dp"
                 android:onClick="share"
                 android:text="share"
@@ -69,7 +67,7 @@
             <ImageView
                 android:id="@+id/copy"
                 android:src="@drawable/copy"
-                android:layout_marginLeft="7dp"
+                android:layout_marginLeft="47dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_toEndOf="@+id/share"
@@ -82,15 +80,26 @@
             android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/relativeLayout2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:paddingBottom="5dp"
-            android:text="TextView"
+            android:padding="10dp"
+            android:paddingBottom="0dp"
+            android:text="TextView author"
             android:textColor="#ffffff" />
+        <TextView
+            android:layout_width="150dp"
+            android:background="#ffffff"
+            android:layout_below="@+id/author"
+            android:id="@+id/line2"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="2dp" />
 
-
-    </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:background="#ffffff"
+            android:layout_alignParentBottom="true"
+            android:layout_height="1dp" />
     </RelativeLayout>
 
 </RelativeLayout>

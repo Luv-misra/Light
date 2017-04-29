@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -97,6 +98,7 @@ public class show_all_fav extends AppCompatActivity {
         Sview.setSystemUiVisibility(FSCR);
 
 
+
         handler = new MyDBHandler(this,null,null,1);
 
         allContent = handler.getAllFavContents();
@@ -108,5 +110,13 @@ public class show_all_fav extends AppCompatActivity {
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        Intent setIntent = new Intent(this,MainActivity.class);
+        startActivity(setIntent);
+        finish();
     }
 }

@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/RR"
+    android:background="#666666"
     tools:context="com.example.luv.motivation.MainActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="center"
+        android:scaleType="centerCrop"
          />
 
 
@@ -37,22 +38,12 @@
         android:layout_marginRight="10dp"
         android:layout_alignBottom="@+id/textView2"
         />
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberSigned"
-        android:hint="enter #ID (INTEGER)"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/line"
-        android:layout_marginTop="15dp" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_below="@+id/name"
-        android:layout_marginTop="25dp"
+        android:layout_below="@+id/line"
+        android:layout_marginTop="0dp"
         android:id="@+id/RR_buttons"
         android:layout_height="match_parent">
 
@@ -72,11 +63,11 @@
 
 
         <RelativeLayout
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_above="@+id/center"
             android:onClick="show_by_id"
             android:layout_toRightOf="@+id/center"
-            android:layout_height="100dp">
+            android:layout_height="120dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -85,8 +76,8 @@
                 android:alpha="0.4"/>
             <ImageView
                 android:id="@+id/ID"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:src="@drawable/id"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
@@ -96,6 +87,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="show:ID"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:textSize="20dp"
                 android:layout_below="@+id/ID"
@@ -105,11 +98,12 @@
 
 
         <RelativeLayout
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:onClick="show_all_quotes"
             android:layout_below="@+id/center"
             android:layout_toLeftOf="@+id/center"
-            android:layout_height="100dp">
+            android:layout_height="120dp"
+            android:id="@+id/relativeLayout">
 
             <TextView
                 android:layout_width="match_parent"
@@ -118,8 +112,8 @@
                 android:alpha="0.4"/>
             <ImageView
                 android:id="@+id/button7"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:src="@drawable/show_all"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
@@ -129,6 +123,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="show all"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:textSize="20dp"
                 android:layout_below="@+id/button7"
@@ -137,11 +133,11 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:onClick="show_all_fav"
             android:layout_above="@+id/center"
             android:layout_toLeftOf="@+id/center"
-            android:layout_height="100dp">
+            android:layout_height="120dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -150,8 +146,8 @@
                 android:alpha="0.4"/>
             <ImageView
                 android:id="@+id/fav"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:src="@drawable/fav"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
@@ -159,6 +155,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
                 android:layout_centerHorizontal="true"
                 android:text="FAV"
                 android:gravity="center"
@@ -170,11 +168,11 @@
 
 
         <RelativeLayout
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:onClick="one_by_one"
             android:layout_below="@+id/center"
             android:layout_toRightOf="@+id/center"
-            android:layout_height="100dp">
+            android:layout_height="120dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -183,8 +181,8 @@
                 android:alpha="0.4"/>
             <ImageView
                 android:id="@+id/button5"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:src="@drawable/one_by_one"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
@@ -194,6 +192,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="1 by 1"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:textSize="20dp"
                 android:layout_below="@+id/button5"
@@ -223,6 +223,20 @@
             android:layout_margin="10dp"
             android:layout_height="match_parent" />
 
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:padding="10dp"
+            android:background="#999999"
+            android:inputType="numberSigned"
+            android:hint="enter #ID (INTEGER)"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp" />
+
         <TextView
             android:id="@+id/text"
             android:layout_width="match_parent"
@@ -238,6 +252,13 @@
             android:src="@drawable/error"
             android:onClick="cancel_quote"
             android:layout_alignParentRight="true"
+            android:layout_height="60dp" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:src="@drawable/done"
+            android:onClick="show_quote_by_id_tick"
+            android:layout_alignParentLeft="true"
             android:layout_height="60dp" />
 
 

@@ -8,15 +8,12 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Random;
 
 
 /**
@@ -147,6 +144,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         Log.i("ONONONON", " 1 ");
         handler = new MyDBHandler(context,null,null,1);
 
+
         sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         if( !sharedPreferences.contains("Qnow") )
         {
@@ -158,6 +156,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             Log.i("SP", " 2 ");
             numbers.now = Integer.parseInt(sharedPreferences.getString("Qnow",""));
         }
+
 
         P = new products("no","no");
         Log.i("ONONONON", " 2 ");
@@ -181,6 +180,29 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.author, P.author);
 
 
+            if( P.quote != null )
+            {
+                if( P.quote.length() < 35 )
+                {
+                    remoteViews.setFloat(R.id.textView, "setTextSize", 37);
+                }
+                else if( P.quote.length() < 40 )
+                {
+                    remoteViews.setFloat(R.id.textView, "setTextSize", 25);
+                }
+                else if( P.quote.length() < 45 )
+                {
+                    remoteViews.setFloat(R.id.textView, "setTextSize", 22);
+                }
+                else
+                {
+                    remoteViews.setFloat(R.id.textView, "setTextSize", 20);
+                }
+
+            }
+
+
+
             if( P.favourite == 1 )
             {
                 remoteViews.setImageViewResource(R.id.actionButton,R.drawable.like);
@@ -190,6 +212,19 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                 remoteViews.setImageViewResource(R.id.actionButton,R.drawable.like_no);
             }
 
+            if( numbers.AWW )
+            {
+                remoteViews.setViewVisibility(R.id.line4, View.VISIBLE);
+                remoteViews.setViewVisibility(R.id.black_back, View.VISIBLE);
+                remoteViews.setViewVisibility(R.id.no_back, View.VISIBLE);
+                numbers.AWW = false;
+            }
+            else
+            {
+                remoteViews.setViewVisibility(R.id.line4, View.INVISIBLE);
+                remoteViews.setViewVisibility(R.id.black_back, View.INVISIBLE);
+                remoteViews.setViewVisibility(R.id.no_back, View.INVISIBLE);
+            }
 
             if( numbers.setBack )
             {
@@ -206,6 +241,16 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             {
                 remoteViews.setViewVisibility(R.id.back, View.INVISIBLE);
             }
+
+            if( numbers.blackBack )
+            {
+                remoteViews.setViewVisibility(R.id.back2, View.VISIBLE);
+            }
+            else
+            {
+                remoteViews.setViewVisibility(R.id.back2, View.INVISIBLE);
+            }
+
 
             Intent intent = new Intent(context, SimpleWidgetProvider.class);
 
@@ -236,7 +281,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             intent.putExtra("key","89");
             PendingIntent pendingIntent3 = PendingIntent.getBroadcast(context,
                     3, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setOnClickPendingIntent(R.id.showBack, pendingIntent3);
+            remoteViews.setOnClickPendingIntent(R.id.no_back, pendingIntent3);
 
 
             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
@@ -267,8 +312,40 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                     7, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setOnClickPendingIntent(R.id.left, pendingIntent7);
 
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            intent.putExtra("key","11");
+            PendingIntent pendingIntent8 = PendingIntent.getBroadcast(context,
+                    8, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.left_sc, pendingIntent8);
+
+
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            intent.putExtra("key","19");
+            PendingIntent pendingIntent9 = PendingIntent.getBroadcast(context,
+                    9, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.right_sc, pendingIntent9);
 
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
+
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            intent.putExtra("key","10");
+            PendingIntent pendingIntent10 = PendingIntent.getBroadcast(context,
+                    10, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.black_back, pendingIntent10);
+
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            intent.putExtra("key","100");
+            PendingIntent pendingIntent11 = PendingIntent.getBroadcast(context,
+                    11, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.showBack, pendingIntent11);
+
+            appWidgetManager.updateAppWidget(widgetId, remoteViews);
+
+
         }
     }
 
@@ -342,10 +419,20 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                 }
 
             }
+            else if(value.equals("100"))
+            {
+                numbers.AWW = !numbers.AWW;
+            }
             else if(value.equals("89"))
             {
                 Log.i("ONONONON", " 89898989 ");
                 numbers.setBack = !numbers.setBack;
+            }
+            else if(value.equals("10"))
+            {
+                Log.i("ONONONON", " 10101010 ");
+                Toast.makeText(context, "10101010", Toast.LENGTH_SHORT).show();
+                numbers.blackBack = !numbers.blackBack;
             }
             else if(value.equals("74"))
             {
