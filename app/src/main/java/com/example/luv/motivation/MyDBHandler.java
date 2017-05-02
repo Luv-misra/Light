@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -145,19 +146,39 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return allQuotes;
     }
 
-    public int size()
+    public long size()
     {
         int res = 0;
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db2 = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_PRODUCTS;
-        Cursor c = db.rawQuery(query,null);
+        Cursor c = db2.rawQuery(query,null);
         if( c!=null && c.moveToFirst() )
         {
             res = c.getCount();
         }
-        return res;
 
+        return res;
     }
+
+    public products getLast()
+    {
+        products P = new products();
+        SQLiteDatabase db2 = this.getWritableDatabase();
+        String query = "SELECT * FROM "+ TABLE_PRODUCTS + " ORDER BY " + COLUMN_ID + " DESC LIMIT 1";
+        Cursor c = db2.rawQuery(query,null);
+        if( c!=null && c.moveToFirst() )
+        {
+            P._id           = Integer.parseInt(c.getString(c.getColumnIndex(COLUMN_ID)));
+            P.quote         = c.getString(c.getColumnIndex(COLUMN_QUOTE));
+            P.author        = c.getString(c.getColumnIndex(COLUMN_AUTHOR));
+            P.favourite     = Integer.parseInt(c.getString(c.getColumnIndex(COLUMN_FAVOURITE)));
+            P.repeat_times  = Integer.parseInt(c.getString(c.getColumnIndex(COLUMN_REPEAT_TIMES)));
+            P.del           = Integer.parseInt(c.getString(c.getColumnIndex(COLUMN_DEL)));
+            P.Bimg          = Integer.parseInt(c.getString(c.getColumnIndex(COLUMN_BIMG)));
+        }
+        return P;
+    }
+
 
     //return quote by id
     public String getQuoteById( Integer i )

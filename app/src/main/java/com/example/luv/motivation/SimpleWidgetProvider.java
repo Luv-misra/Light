@@ -88,10 +88,6 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         Log.i("ONONONON", "fav: ");
     }
 
-    public void openApp( Context context )
-    {
-        openAppNow OAN = new openAppNow(context);
-    }
     public  void copy(Context context)
     {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -111,38 +107,39 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         Toast.makeText(context, "copied to clipboard", Toast.LENGTH_SHORT).show();
     }
 
-    public void share( Context context )
-    {
-
-//        AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-//        //retrieve a ref to the manager so we can pass a view update
+//    public void share( Context context )
+//    {
 //
-//        Intent i = new Intent();
-//        i.setClassName(context.getPackageName(), context.getPackageName().getClass().toString());
-//        PendingIntent myPI = PendingIntent.getService(context, 0, i, 0);
-        //intent to start service
-
-
-        handler = new MyDBHandler(context,null,null,1);
-        P = handler.getProductById(numbers.now);
-        String res = P.quote ;
-        if( P.author.equals("") )
-        {
-
-        }
-        else
-        {
-            res += "\n\n"+"by : "+P.author;
-        }
-        Log.i("ONONONON", "share: going to share ");
-        ShareIt SI = new ShareIt(context,res);
-    }
+////        AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+////        //retrieve a ref to the manager so we can pass a view update
+////
+////        Intent i = new Intent();
+////        i.setClassName(context.getPackageName(), context.getPackageName().getClass().toString());
+////        PendingIntent myPI = PendingIntent.getService(context, 0, i, 0);
+//        //intent to start service
+//
+//
+//        handler = new MyDBHandler(context,null,null,1);
+//        P = handler.getProductById(numbers.now);
+//        String res = P.quote ;
+//        if( P.author.equals("") )
+//        {
+//
+//        }
+//        else
+//        {
+//            res += "\n\n"+"by : "+P.author;
+//        }
+//        Log.i("ONONONON", "share: going to share ");
+//        ShareIt SI = new ShareIt(context,res);
+//    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         final int count = appWidgetIds.length;
-        Log.i("ONONONON", " 1 ");
         handler = new MyDBHandler(context,null,null,1);
+
+        Log.i("ONONONON", "SIZE" );
 
 
         sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
@@ -179,6 +176,22 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.textView, P.quote);
             remoteViews.setTextViewText(R.id.author, P.author);
 
+            if( numbers.no_func )
+            {
+                remoteViews.setViewVisibility(R.id.func, View.GONE);
+                remoteViews.setViewVisibility(R.id.left,View.GONE);
+                remoteViews.setViewVisibility(R.id.right,View.GONE);
+                remoteViews.setViewVisibility(R.id.tick_func,View.INVISIBLE);
+
+            }
+            else
+            {
+                remoteViews.setViewVisibility(R.id.func, View.VISIBLE);
+                remoteViews.setViewVisibility(R.id.left,View.VISIBLE);
+                remoteViews.setViewVisibility(R.id.right,View.VISIBLE);
+                remoteViews.setViewVisibility(R.id.tick_func,View.VISIBLE);
+            }
+
 
             if( P.quote != null )
             {
@@ -201,8 +214,6 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
 
             }
 
-
-
             if( P.favourite == 1 )
             {
                 remoteViews.setImageViewResource(R.id.actionButton,R.drawable.like);
@@ -212,18 +223,24 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                 remoteViews.setImageViewResource(R.id.actionButton,R.drawable.like_no);
             }
 
-            if( numbers.AWW )
+            if( numbers.blackBack )
             {
-                remoteViews.setViewVisibility(R.id.line4, View.VISIBLE);
-                remoteViews.setViewVisibility(R.id.black_back, View.VISIBLE);
-                remoteViews.setViewVisibility(R.id.no_back, View.VISIBLE);
-                numbers.AWW = false;
+                remoteViews.setViewVisibility(R.id.back2, View.VISIBLE);
+                remoteViews.setViewVisibility(R.id.tick_black, View.VISIBLE);
             }
             else
             {
-                remoteViews.setViewVisibility(R.id.line4, View.INVISIBLE);
-                remoteViews.setViewVisibility(R.id.black_back, View.INVISIBLE);
-                remoteViews.setViewVisibility(R.id.no_back, View.INVISIBLE);
+                remoteViews.setViewVisibility(R.id.back2, View.INVISIBLE);
+                remoteViews.setViewVisibility(R.id.tick_black, View.INVISIBLE);
+            }
+
+            if( numbers.AWW )
+            {
+                remoteViews.setViewVisibility(R.id.SETTINGS, View.VISIBLE);
+            }
+            else
+            {
+                remoteViews.setViewVisibility(R.id.SETTINGS, View.INVISIBLE);
             }
 
             if( numbers.setBack )
@@ -236,20 +253,15 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                     remoteViews.setInt(R.id.back, "setBackgroundResource", id);
 
                 }
+                remoteViews.setViewVisibility(R.id.tick_back, View.VISIBLE);
             }
             else
             {
                 remoteViews.setViewVisibility(R.id.back, View.INVISIBLE);
+                remoteViews.setViewVisibility(R.id.tick_back, View.INVISIBLE);
             }
 
-            if( numbers.blackBack )
-            {
-                remoteViews.setViewVisibility(R.id.back2, View.VISIBLE);
-            }
-            else
-            {
-                remoteViews.setViewVisibility(R.id.back2, View.INVISIBLE);
-            }
+
 
 
             Intent intent = new Intent(context, SimpleWidgetProvider.class);
@@ -345,6 +357,45 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
 
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
 
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            intent.putExtra("key","402");
+            PendingIntent pendingIntent12 = PendingIntent.getBroadcast(context,
+                    12, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.no_func, pendingIntent12);
+
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            intent.putExtra("key","001");
+            PendingIntent pendingIntent13 = PendingIntent.getBroadcast(context,
+                    13, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.AAA, pendingIntent13);
+
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            intent.putExtra("key","82");
+            PendingIntent pendingIntent14 = PendingIntent.getBroadcast(context,
+                    14, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.bbs, pendingIntent14);
+
+
+            //new activity
+            Intent configIntent = new Intent(context, MainActivity.class);
+            PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
+            remoteViews.setOnClickPendingIntent(R.id.openApp, configPendingIntent);
+            //new activity
+
+            //share
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, ans);
+            sendIntent.setType("text/plain");
+            PendingIntent configPendingIntent1 = PendingIntent.getActivity(context, 0,sendIntent, 0);
+            remoteViews.setOnClickPendingIntent(R.id.share, configPendingIntent1);
+            //share
+
+            appWidgetManager.updateAppWidget(widgetId, remoteViews);
+
 
         }
     }
@@ -367,7 +418,11 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         if(value!=null )
         {
             Log.i("ONONONON", "here in it");
-            if(value.equals("19"))
+            if( value.equals("001") )
+            {
+
+            }
+            else if(value.equals("19"))
             {
                 Log.i("ONONONON", " 19191919 ");
                 try
@@ -396,15 +451,6 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             else if(value.equals("33"))
             {
                 Log.i("ONONONON", " 33333333 ");
-                try
-                {
-                    share(context);
-                }
-                catch (Exception e)
-                {
-                    Toast.makeText(context, "problem", Toast.LENGTH_SHORT).show();
-                }
-
             }
             else if(value.equals("21"))
             {
@@ -423,6 +469,10 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             {
                 numbers.AWW = !numbers.AWW;
             }
+            else if( value.equals("82") )
+            {
+                numbers.AWW = !numbers.AWW;
+            }
             else if(value.equals("89"))
             {
                 Log.i("ONONONON", " 89898989 ");
@@ -437,14 +487,14 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             else if(value.equals("74"))
             {
                 Log.i("ONONONON", " 74747474 ");
-                try
-                {
-                    openApp(context);
-                }
-                catch (Exception e)
-                {
-                    Toast.makeText(context, "problem", Toast.LENGTH_SHORT).show();
-                }
+//                try
+//                {
+//                    openApp(context);
+//                }
+//                catch (Exception e)
+//                {
+//                    Toast.makeText(context, "problem", Toast.LENGTH_SHORT).show();
+//                }
             }
             else if(value.equals("52"))
             {
@@ -457,6 +507,10 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                 {
                     Toast.makeText(context, "problem", Toast.LENGTH_SHORT).show();
                 }
+            }
+            else if( value.equals("402") )
+            {
+                numbers.no_func = !numbers.no_func ;
             }
         }
 

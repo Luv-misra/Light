@@ -6,8 +6,10 @@ package com.example.luv.motivation;
 
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -42,13 +44,14 @@ public class SendDataService extends Service {
 
 
 
-    String quote="";
-    String prev_quote="";
+    String quote="$$$";
+    String prev_quote="$$$";
     products P;
     String prev_author="";
     MyDBHandler handlerDB;
     String flow = "FLOW" ;
     String author="";
+    SharedPreferences sharedPreferences;
     Boolean isError = false;
     ArrayList<Integer> arrayList = new ArrayList<>();
 
@@ -73,6 +76,11 @@ public class SendDataService extends Service {
                 ResponseBody jsonData = res.body();
                 try {
                     prev_quote = quote;
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("prevQuote",prev_quote);
+                    editor.commit();
+
                     JSONObject Jobject = new JSONObject(jsonData.string());
                     quote  = Jobject.getString("quoteText");
                     author = Jobject.getString("quoteAuthor");
@@ -180,11 +188,6 @@ public class SendDataService extends Service {
 
 
 
-
-
-
-
-
     public class LocalBinder extends Binder {
                 public SendDataService getService() {
                         return SendDataService .this;
@@ -233,9 +236,26 @@ public class SendDataService extends Service {
 
                             Log.i("****************", "run: ");
                             P = new products("","");
-                            arrayList = numbers.already_taken_Bimg;
+
+                            Context context  = getApplicationContext();
                             handlerDB = new MyDBHandler(SendDataService.this , null , null , 1);
-                            getQuote();
+
+                            if( handlerDB.size() > 6000 )
+                            {
+                                //DO NOTHING
+                            }
+                            else {
+                                sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+                                if (!sharedPreferences.contains("prevQuote")) {
+                                    sharedPreferences.edit().putString("prevQuote", prev_quote).apply();
+                                } else {
+                                    prev_quote = sharedPreferences.getString("prevQuote", "");
+                                }
+
+
+                                arrayList = numbers.already_taken_Bimg;
+                                getQuote();
+                            }
                         //))
                         }
                 });

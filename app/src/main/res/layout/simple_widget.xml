@@ -62,29 +62,35 @@
         />
     </LinearLayout>
 
-    <ImageView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/func"
+        android:layout_height="match_parent">
+
+
+        <ImageView
             android:id="@+id/share"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:tag="share"
-        android:layout_marginTop="7dp"
+            android:layout_marginTop="7dp"
             android:src="@drawable/share"
             android:text="share"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
-    <ImageView
-        android:id="@+id/actionButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="7dp"
-        android:tag="refresh"
-        android:src="@drawable/like"
-        android:text="Refresh"/>
+        <ImageView
+            android:id="@+id/actionButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="7dp"
+            android:tag="refresh"
+            android:src="@drawable/like"
+            android:text="Refresh"/>
 
 
-    <ImageView
+        <ImageView
             android:id="@+id/copy"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -96,6 +102,21 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true" />
 
+
+        <ImageView
+            android:id="@+id/openApp"
+            android:layout_width="30dp"
+            android:src="@drawable/openapp"
+            android:layout_marginLeft="7dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="7dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+
+
+    </RelativeLayout>
+
+
     <ImageView
         android:id="@+id/showBack"
         android:layout_width="30dp"
@@ -104,17 +125,9 @@
         android:layout_marginBottom="7dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/showback" />
+        android:src="@drawable/settings" />
 
-    <ImageView
-        android:id="@+id/openApp"
-        android:layout_width="30dp"
-        android:src="@drawable/openapp"
-        android:layout_marginLeft="7dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="7dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+
 
     <TextView
         android:id="@+id/author"
@@ -149,44 +162,196 @@
         android:layout_alignParentBottom="true"
         />
 
-    <TextView
-        android:layout_width="180dp"
-        android:background="#ffffff"
-        android:text="black"
-        android:visibility="gone"
-        android:textColor="#000000"
-        android:id="@+id/black_back"
-        android:paddingLeft="15dp"
-        android:layout_alignParentRight="true"
-        android:textSize="30dp"
-        android:layout_marginRight="7dp"
-        android:layout_above="@+id/no_back"
-        android:layout_height="wrap_content" />
 
-    <TextView
-        android:layout_width="180dp"
-        android:layout_height="2dp"
-        android:visibility="gone"
-        android:id="@+id/line4"
-        android:layout_marginRight="7dp"
-        android:layout_above="@+id/no_back"
-        android:layout_alignParentRight="true"
-        android:background="#000000"
-        />
-    <TextView
-        android:layout_width="180dp"
-        android:id="@+id/no_back"
-        android:visibility="gone"
-        android:paddingLeft="15dp"
-        android:layout_alignParentRight="true"
-        android:textColor="#000000"
-        android:text="no back"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="7dp"
-        android:textSize="30dp"
-        android:background="#ffffff"
-        android:layout_above="@+id/showBack"
-        android:layout_height="wrap_content" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/SETTINGS"
+        android:visibility="visible"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:background="#000000"
+            android:alpha="0.9"
+            android:id="@+id/AAA"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="30dp"
+                android:text="SETTINGS"
+                android:id="@+id/title"
+                android:textColor="#ffffff"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="100dp"
+                android:background="#ffffff"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/title"
+                android:layout_height="2dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="match_parent">
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/textborder"
+                    android:id="@+id/no_back"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="20dp"
+                        android:text="blackground"
+                        android:padding="10dp"
+                        android:id="@+id/a1"
+                        android:textColor="#ffffff"
+                        android:layout_marginRight="100dp"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:src="@drawable/error"
+                        android:paddingRight="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/a1"
+                        android:layout_height="50dp" />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:src="@drawable/done"
+                        android:paddingRight="20dp"
+                        android:id="@+id/tick_back"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/a1"
+                        android:layout_height="50dp" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/no_back"
+                    android:background="@drawable/textborder"
+                    android:id="@+id/black_back"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="20dp"
+                        android:text="opequeness"
+                        android:padding="10dp"
+                        android:id="@+id/a2"
+                        android:textColor="#ffffff"
+                        android:layout_marginRight="100dp"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:src="@drawable/error"
+                        android:paddingRight="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/a2"
+                        android:layout_height="50dp" />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:src="@drawable/done"
+                        android:paddingRight="20dp"
+                        android:id="@+id/tick_black"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/a2"
+                        android:layout_height="50dp" />
+
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/black_back"
+                    android:background="@drawable/textborder"
+                    android:id="@+id/no_func"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="20dp"
+                        android:text="functions"
+                        android:padding="10dp"
+                        android:id="@+id/a3"
+                        android:textColor="#ffffff"
+                        android:layout_marginRight="125dp"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:src="@drawable/error"
+                        android:paddingRight="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/a3"
+                        android:layout_height="50dp" />
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:src="@drawable/done"
+                        android:paddingRight="20dp"
+                        android:id="@+id/tick_func"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/a3"
+                        android:layout_height="50dp" />
+
+
+                </RelativeLayout>
+
+
+
+
+
+
+
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:id="@+id/more"
+                android:textSize="20dp"
+                android:layout_centerHorizontal="true"
+                android:padding="10dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/textborder"
+                android:text="more settings (Later)"
+                android:textColor="#ffffff"
+                android:layout_height="wrap_content" />
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:id="@+id/bbs"
+                android:src="@drawable/left"
+                android:layout_height="40dp" />
+
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -17,6 +17,7 @@ public class numbers {
     static int total_back_img = 8 ;
     static MyDBHandler handler ;
     static int now = 1 ;
+    static boolean no_func = false;
     static Boolean AWW = false ;
     static int back_img = 1 ;
     static boolean H = false;
