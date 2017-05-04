@@ -169,6 +169,10 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
         if( PP.quote!=null )
         {
             quoteA.setText(PP.quote);
+            if( PP.quote.length() > 55 )
+            {
+                quoteA.setTextSize(22);
+            }
 
 //            int id = this.context.getResources().getIdentifier(this.context.getPackageName()+":drawable/" + back_name, null, null);
 //            Qback.setBackgroundResource(id);

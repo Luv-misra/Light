@@ -114,33 +114,6 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         Toast.makeText(context, "copied to clipboard", Toast.LENGTH_SHORT).show();
     }
 
-//    public void share( Context context )
-//    {
-//
-////        AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-////        //retrieve a ref to the manager so we can pass a view update
-////
-////        Intent i = new Intent();
-////        i.setClassName(context.getPackageName(), context.getPackageName().getClass().toString());
-////        PendingIntent myPI = PendingIntent.getService(context, 0, i, 0);
-//        //intent to start service
-//
-//
-//        handler = new MyDBHandler(context,null,null,1);
-//        P = handler.getProductById(numbers.now);
-//        String res = P.quote ;
-//        if( P.author.equals("") )
-//        {
-//
-//        }
-//        else
-//        {
-//            res += "\n\n"+"by : "+P.author;
-//        }
-//        Log.i("ONONONON", "share: going to share ");
-//        ShareIt SI = new ShareIt(context,res);
-//    }
-
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         final int count = appWidgetIds.length;

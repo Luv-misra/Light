@@ -220,7 +220,7 @@ public class SendDataService extends Service {
                 @Override
                 public void onFinish()
                 {
-                    if( handlerDB.size() < 6000 )
+                    if( handlerDB.size() < 8000 )
                     {
                         getQuote();
                     }
@@ -231,7 +231,7 @@ public class SendDataService extends Service {
 
 
         @Override
-        public int onStartCommand(Intent intent, int flags, int startId) {
+        public int onStartCommand(final Intent intent, int flags, int startId) {
                 handler = new Handler();
                 handler.post(new Runnable() {
                         @Override
@@ -243,9 +243,10 @@ public class SendDataService extends Service {
                             Context context  = getApplicationContext();
                             handlerDB = new MyDBHandler(SendDataService.this , null , null , 1);
 
-                            if( handlerDB.size() > 6000 )
+                            if( handlerDB.size() > 8000 )
                             {
-                                //DO NOTHING
+                                //DO NOTHING , BUT STOP Service
+                                stopService(intent);
                             }
                             else {
                                 sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
@@ -259,7 +260,11 @@ public class SendDataService extends Service {
                                 arrayList = numbers.already_taken_Bimg;
                                 getQuote();
                             }
-                        //))
+                            if( handlerDB.size() > 8000 )
+                            {
+                                //DO NOTHING , BUT STOP Service
+                                stopService(intent);
+                            }
                         }
                 });
                 return android.app.Service.START_STICKY;

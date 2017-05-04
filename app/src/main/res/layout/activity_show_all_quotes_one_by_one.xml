@@ -35,6 +35,31 @@
                 />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:onClick="toggle_H"
+            android:layout_height="60dp" />
+
+        <ImageView
+            android:id="@+id/prev"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/left"
+            android:paddingBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+
+
+        <ImageView
+            android:id="@+id/next"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/right"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -177,30 +202,6 @@
 
 
     </RelativeLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:onClick="toggle_H"
-        android:layout_height="60dp" />
-
-    <ImageView
-        android:id="@+id/prev"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/left"
-        android:paddingBottom="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
-
-    <ImageView
-        android:id="@+id/next"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:paddingBottom="10dp"
-        android:src="@drawable/right"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
 
     <ImageView
         android:layout_width="200dp"
