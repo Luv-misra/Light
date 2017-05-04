@@ -128,7 +128,6 @@ public class show_all_quotes extends AppCompatActivity {
     }
     public void share( View v )
     {
-        Toast.makeText(this, "sharing "+v.getTag(), Toast.LENGTH_SHORT).show();
         Intent sendIntent = new Intent();
         String ans = "";
         products P = handler.getProductById(Integer.parseInt(v.getTag().toString()));
@@ -167,7 +166,6 @@ public class show_all_quotes extends AppCompatActivity {
         ClipData clip = ClipData.newPlainText("",ans);
         clipboard.setPrimaryClip(clip);
 
-        Toast.makeText(this, "hererre", Toast.LENGTH_SHORT).show();
         String back_name = "b"+Integer.toString(P.Bimg);
 //        String back_name = "b" + Bimg.get(position);
         int id = this.getResources().getIdentifier(this.getPackageName()+":drawable/" + back_name, null, null);

@@ -11,12 +11,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Binder;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -33,6 +35,7 @@ import com.plattysoft.leonids.ParticleSystem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -261,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
         int FSCR = View.SYSTEM_UI_FLAG_FULLSCREEN;
         Sview.setSystemUiVisibility(FSCR);
         imageview = (ImageView) findViewById(R.id.imageView);
+        TextView IV = (TextView) findViewById(R.id.textView2);
 
         PrefManager prefManager = new PrefManager(this);
 
@@ -269,6 +273,14 @@ public class MainActivity extends AppCompatActivity {
         startService();
 
         RR_quote = (RelativeLayout) findViewById(R.id.RR_quote);
+
+        if(Integer.valueOf(Build.VERSION.SDK_INT) < 21)
+        {
+            Toast.makeText(this, " lower SDK " + IV.getTextSize(), Toast.LENGTH_SHORT).show();
+            IV.setTextSize(35);
+            IV.setPadding(0,50,0,50);
+            IV.setGravity(Gravity.CENTER_HORIZONTAL);
+        }
 
         if (prefManager.isFirstTimeLaunch())
         {

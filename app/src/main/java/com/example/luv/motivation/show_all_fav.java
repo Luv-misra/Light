@@ -30,7 +30,6 @@ public class show_all_fav extends AppCompatActivity {
 
     public void liked( View v )
     {
-        Toast.makeText(this, "liked "+v.getTag(), Toast.LENGTH_SHORT).show();
         handler.toggleLike(v.getTag().toString());
         ImageView LIKE = (ImageView) v.findViewById(R.id.like);
 
@@ -47,7 +46,6 @@ public class show_all_fav extends AppCompatActivity {
     }
     public void share( View v )
     {
-        Toast.makeText(this, "sharing "+v.getTag(), Toast.LENGTH_SHORT).show();
         Intent sendIntent = new Intent();
         String ans = "";
         products P = handler.getProductById(Integer.parseInt(v.getTag().toString()));

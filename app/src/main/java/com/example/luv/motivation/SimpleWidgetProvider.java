@@ -11,6 +11,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +75,8 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         numbers.now--;
         if( numbers.now <= 0 )
         {
-            numbers.now++;
+            handler = new MyDBHandler(context,null,null,1);
+            numbers.now = (int)handler.size();
         }
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -81,12 +87,13 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         Log.i("SP", " 5 ");
     }
 
+
     public void fav( Context context )
     {
         handler = new MyDBHandler(context,null,null,1);
         handler.toggleLike(Integer.toString(numbers.now));
         Log.i("ONONONON", "fav: ");
-    }
+       }
 
     public  void copy(Context context)
     {
@@ -142,6 +149,12 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
         Log.i("ONONONON", "SIZE" );
 
 
+        if( numbers.phone_on )
+        {
+            numbers.phone_on = false;
+            nextQuote(context);
+        }
+
         sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         if( !sharedPreferences.contains("Qnow") )
         {
@@ -157,15 +170,14 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
 
         P = new products("no","no");
         Log.i("ONONONON", " 2 ");
-        P = handler.getProductById(numbers.now);
-        if( P.quote == null )
+        if( numbers.now > handler.size() )
         {
-            numbers.now=0;
+            numbers.now=1;
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("Qnow",Integer.toString(numbers.now));
             editor.commit();
-            P = handler.getProductById(numbers.now);
         }
+        P = handler.getProductById(numbers.now);
         for (int i = 0; i < count; i++) {
             int widgetId = appWidgetIds[i];
 
@@ -378,12 +390,25 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                     14, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setOnClickPendingIntent(R.id.bbs, pendingIntent14);
 
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            intent.putExtra("key","210");
+            PendingIntent pendingIntent15 = PendingIntent.getBroadcast(context,
+                    15, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.more, pendingIntent15);
+
 
             //new activity
             Intent configIntent = new Intent(context, MainActivity.class);
             PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
             remoteViews.setOnClickPendingIntent(R.id.openApp, configPendingIntent);
             //new activity
+
+            //new activity (SETTINGS)
+            Intent configIntent4 = new Intent(context, settings.class);
+            PendingIntent configPendingIntent4 = PendingIntent.getActivity(context, 0, configIntent4, 0);
+            remoteViews.setOnClickPendingIntent(R.id.more, configPendingIntent4);
+            //new activity (SETTINGS)
 
             //share
             Intent sendIntent = new Intent();
@@ -481,20 +506,11 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             else if(value.equals("10"))
             {
                 Log.i("ONONONON", " 10101010 ");
-                Toast.makeText(context, "10101010", Toast.LENGTH_SHORT).show();
                 numbers.blackBack = !numbers.blackBack;
             }
             else if(value.equals("74"))
             {
-                Log.i("ONONONON", " 74747474 ");
-//                try
-//                {
-//                    openApp(context);
-//                }
-//                catch (Exception e)
-//                {
-//                    Toast.makeText(context, "problem", Toast.LENGTH_SHORT).show();
-//                }
+
             }
             else if(value.equals("52"))
             {

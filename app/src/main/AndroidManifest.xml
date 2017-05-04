@@ -38,7 +38,6 @@
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".SimpleWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -53,6 +52,7 @@
         <activity android:name=".show_all_fav" />
         <activity android:name=".Show_all_quotes_one_by_one" />
         <activity android:name=".WelcomeActivity" />
+        <activity android:name=".settings"></activity>
     </application>
 
 </manifest>

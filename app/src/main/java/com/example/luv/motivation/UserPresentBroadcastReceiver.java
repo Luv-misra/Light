@@ -9,8 +9,6 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
         import android.content.Intent;
-import android.widget.RemoteViews;
-import android.widget.Toast;
 
 public class UserPresentBroadcastReceiver extends BroadcastReceiver {
 
@@ -22,23 +20,21 @@ public class UserPresentBroadcastReceiver extends BroadcastReceiver {
          * */
         if(intent.getAction().equals(Intent.ACTION_USER_PRESENT)){
 
-            Toast.makeText(arg0, "on", Toast.LENGTH_SHORT).show();
-            numbers.now++;
+           if( numbers.unlock )
+           {
+               numbers.phone_on = true;
 
-            MyDBHandler handler = new MyDBHandler(arg0,null,null,1);
-            if( numbers.now > handler.size() )
-            {
-                numbers.now = 1 ;
-            }
+               AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(arg0.getApplicationContext());
+               int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(arg0, SimpleWidgetProvider.class));
+               if (appWidgetIds.length > 0) {
+                   new SimpleWidgetProvider().onUpdate(arg0, appWidgetManager, appWidgetIds);
+               }
+           }
 
-            Context context = arg0;
-            SimpleWidgetProvider S = new SimpleWidgetProvider();
-            intent.putExtra("key","19");
-            S.onReceive(context,intent);
+
         }
         if( intent.getAction().equals(Intent.ACTION_SCREEN_OFF) ){
 
-            Toast.makeText(arg0, "off", Toast.LENGTH_SHORT).show();
 
         }
         /*Device is shutting down. This is broadcast when the device

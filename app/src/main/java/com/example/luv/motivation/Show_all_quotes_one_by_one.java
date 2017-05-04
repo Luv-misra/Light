@@ -50,7 +50,6 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
 
     public void liked( View v )
     {
-        Toast.makeText(this, "liked "+v.getTag(), Toast.LENGTH_SHORT).show();
         handler.toggleLike(v.getTag().toString());
         if( PP.favourite == 0 )
         {
@@ -61,7 +60,6 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
     }
     public void share( View v )
     {
-        Toast.makeText(this, "sharing "+v.getTag(), Toast.LENGTH_SHORT).show();
         Intent sendIntent = new Intent();
         String ans = "";
         products P = handler.getProductById(Integer.parseInt(v.getTag().toString()));
@@ -216,6 +214,7 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
         int FSCR = View.SYSTEM_UI_FLAG_FULLSCREEN;
         Sview.setSystemUiVisibility(FSCR);
 
+        handler = new MyDBHandler(this,null,null,1);
         next = (ImageView) findViewById(R.id.next);
         prev = (ImageView) findViewById(R.id.prev);
         next_sc = (TextView) findViewById(R.id.right_sc);
@@ -226,6 +225,10 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 numbers.one_by_one++;
+                if( numbers.one_by_one > handler.size() )
+                {
+                    numbers.one_by_one = 1 ;
+                }
                 setView();
             }
         });
@@ -238,10 +241,13 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
                 numbers.one_by_one--;
                 if( numbers.one_by_one<=0 )
                 {
-                    numbers.one_by_one = 1 ;
+                    numbers.one_by_one = (int)handler.size() ;
+                    if( numbers.one_by_one <= 0 )
+                    {
+                        numbers.one_by_one = 1 ;
+                    }
                 }
                 setView();
-
             }
         });
 
@@ -249,6 +255,10 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 numbers.one_by_one++;
+                if( numbers.one_by_one > handler.size() )
+                {
+                    numbers.one_by_one = 1 ;
+                }
                 setView();
             }
         });
@@ -261,7 +271,11 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
                 numbers.one_by_one--;
                 if( numbers.one_by_one<=0 )
                 {
-                    numbers.one_by_one = 1 ;
+                    numbers.one_by_one = (int)handler.size()-1 ;
+                    if( numbers.one_by_one <= 0 )
+                    {
+                       numbers.one_by_one = 1 ;
+                    }
                 }
                 setView();
 
@@ -272,7 +286,6 @@ public class Show_all_quotes_one_by_one extends AppCompatActivity {
 
         context = this;
 
-        handler = new MyDBHandler(this,null,null,1);
         setView();
 
     }

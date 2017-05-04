@@ -220,7 +220,10 @@ public class SendDataService extends Service {
                 @Override
                 public void onFinish()
                 {
-
+                    if( handlerDB.size() < 6000 )
+                    {
+                        getQuote();
+                    }
                 }
             }.start();
 
