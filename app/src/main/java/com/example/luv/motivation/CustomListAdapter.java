@@ -38,7 +38,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
 
     public CustomListAdapter(@NonNull Context context, @NonNull ArrayList<String> author, @NonNull ArrayList<products> allContent1 ) {
         super(context, 0, author);
-        Log.i("reach", "CustomListAdapter: ");
+//        Log.i("reach", "CustomListAdapter: ");
         this.context = context;
         author1 = author;
         allContents = allContent1;
@@ -49,9 +49,9 @@ public class CustomListAdapter extends ArrayAdapter<String> {
 
 //        String back_name = "b" + allContents.get(position).Bimg;
 
-        Log.i("reach", "CustomListAdapter:1 ");
+//        Log.i("reach", "CustomListAdapter:1 ");
         View rowView = View.inflate(context, R.layout.single_quote_style_all, null);
-        Log.i("reach", "CustomListAdapter: 1.5");
+//        Log.i("reach", "CustomListAdapter: 1.5");
         TextView quoteA = (TextView) rowView.findViewById(R.id.quote);
         TextView authorA = (TextView) rowView.findViewById(R.id.author);
         TextView ID = (TextView) rowView.findViewById(R.id.ID);
@@ -61,7 +61,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         ImageView COPY  = (ImageView) rowView.findViewById(R.id.copy);
 
 
-        Log.i("reach", "CustomListAdapter: 2");
+//        Log.i("reach", "CustomListAdapter: 2");
 
 
         if( allContents.get(position).quote!=null )
@@ -94,7 +94,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         if( author1.get(position)!=null )
         {authorA.setText(allContents.get(position).author);}
 
-        Log.i("reach", "CustomListAdapter: 3");
+//        Log.i("reach", "CustomListAdapter: 3");
         return rowView;
     }
 }

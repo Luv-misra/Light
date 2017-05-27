@@ -47,9 +47,8 @@ public class SendDataService extends Service {
     String quote="$$$";
     String prev_quote="$$$";
     products P;
-    String prev_author="";
+    Boolean S_status;
     MyDBHandler handlerDB;
-    String flow = "FLOW" ;
     String author="";
     SharedPreferences sharedPreferences;
     Boolean isError = false;
@@ -120,6 +119,10 @@ public class SendDataService extends Service {
                 Log.i("flow", "temp.author1 = "+temp.author1);
                 temp.execute();
             }
+            else
+            {
+//                fillDB();
+            }
         }
     }
 
@@ -158,7 +161,15 @@ public class SendDataService extends Service {
                     arrayList.remove(0);
                 }
 
-                handlerDB.addProduct(P);
+                try
+                {
+                    handlerDB.addProduct(P);
+                }
+                catch (Exception e)
+                {
+                    Log.i("FLOW", " ERROR ");
+                }
+
             }
             return null;
         }
@@ -166,7 +177,6 @@ public class SendDataService extends Service {
         @Override
         protected void onPostExecute(Void aVoid) {
             Log.i("here : ", "##################################");
-            Log.i("***************", "quote by "+author1+"added in db" );
         }
     }
 
@@ -178,12 +188,52 @@ public class SendDataService extends Service {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    public void helper()
+    {
+
+        CountDownTimer c = new CountDownTimer(1000 , 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                fillDB();
+
+            }
+        }.start();
+
+    }
+
+
+
     public void fillDB()
     {
-        if( isNetworkAvailable() )
+        try
         {
-            new SendDataService.GetQuote().execute(null,null,null);
+            if( handlerDB.size() < 8000  )
+            {
+
+                if( isNetworkAvailable() )
+                {
+                    new SendDataService.GetQuote().execute(null,null,null);
+                }
+                else
+                {
+//                fillDB();
+                    helper();
+                }
+
+            }
         }
+        catch (Exception e)
+        {
+
+        }
+
+
     }
 
 
@@ -211,10 +261,13 @@ public class SendDataService extends Service {
         }
         public void getQuote()
         {
-            CountDownTimer c = new CountDownTimer(200000 , 1000) {
+            CountDownTimer c = new CountDownTimer(200000 , 1200) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    fillDB();
+
+
+                        fillDB();
+
                 }
 
                 @Override
@@ -237,7 +290,6 @@ public class SendDataService extends Service {
                         @Override
                         public void run() {
 
-                            Log.i("****************", "run: ");
                             P = new products("","");
 
                             Context context  = getApplicationContext();
@@ -250,14 +302,29 @@ public class SendDataService extends Service {
                             }
                             else {
                                 sharedPreferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+
                                 if (!sharedPreferences.contains("prevQuote")) {
                                     sharedPreferences.edit().putString("prevQuote", prev_quote).apply();
                                 } else {
                                     prev_quote = sharedPreferences.getString("prevQuote", "");
                                 }
 
+                                String temp2 = "0";
+                                if (!sharedPreferences.contains("S_status")) {
+                                    sharedPreferences.edit().putString("S_status", "0").apply();
+                                } else {
+                                    temp2 = sharedPreferences.getString("S_status", "");
+                                }
+
+                                S_status = true;
+                                if( temp2.equals("0") )
+                                {
+                                    S_status = false;
+                                }
+
 
                                 arrayList = numbers.already_taken_Bimg;
+//                                fillDB();
                                 getQuote();
                             }
                             if( handlerDB.size() > 8000 )

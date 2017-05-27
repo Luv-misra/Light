@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     boolean happy = true;
     boolean displaying = false;
     String author="";
+    TextView total;
     EditText name;
 
 
@@ -254,6 +255,27 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    public void setTotal()
+    {
+        CountDownTimer C = new CountDownTimer( 3000,1000 ) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                total.setText(Long.toString(handler.size()) + " quotes  currently ");;
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                setTotal();
+
+            }
+        }.start();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -268,34 +290,36 @@ public class MainActivity extends AppCompatActivity {
 
         PrefManager prefManager = new PrefManager(this);
 
-        IV_back = (ImageView)findViewById(R.id.backcircle);
 
         startService();
+
+        if (prefManager.isFirstTimeLaunch())
+        {
+
+            Intent in = new Intent(this, WelcomeActivity.class);
+            startActivity(in);
+
+        }
+
+        IV_back = (ImageView)findViewById(R.id.backcircle);
 
         RR_quote = (RelativeLayout) findViewById(R.id.RR_quote);
 
         if(Integer.valueOf(Build.VERSION.SDK_INT) < 21)
         {
-            Toast.makeText(this, " lower SDK " + IV.getTextSize(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, " lower SDK " + IV.getTextSize(), Toast.LENGTH_SHORT).show();
             IV.setTextSize(35);
             IV.setPadding(0,50,0,50);
             IV.setGravity(Gravity.CENTER_HORIZONTAL);
-        }
-
-        if (prefManager.isFirstTimeLaunch())
-        {
-            Intent in = new Intent(this, WelcomeActivity.class);
-            Log.i("WELCOME", "onCreate: going in for welcome ");
-            startActivity(in);
-            Log.i("WELCOME", "onCreate:out of it Welcome ");
         }
 
         T= (TextView) findViewById(R.id.text);
         name = (EditText) findViewById(R.id.name);
         handler = new MyDBHandler(MainActivity.this,null,null,1);
         numbers.handler = handler;
+        total = (TextView) findViewById(R.id.total);
 
-
+        setTotal();
         startBACK();
 
 //        //BACKGROUND

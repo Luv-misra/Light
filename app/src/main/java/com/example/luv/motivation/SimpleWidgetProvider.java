@@ -151,6 +151,15 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
             editor.commit();
         }
         P = handler.getProductById(numbers.now);
+        if( P.quote.equals("") )
+        {
+            numbers.now++;
+            if( numbers.now >= handler.size() )
+            {
+                numbers.now = 1 ;
+            }
+            P = handler.getProductById(numbers.now);
+        }
         for (int i = 0; i < count; i++) {
             int widgetId = appWidgetIds[i];
 

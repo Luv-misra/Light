@@ -39,7 +39,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         String query = "CREATE TABLE " + TABLE_PRODUCTS + "(" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
-                COLUMN_QUOTE + " TEXT ," +
+                COLUMN_QUOTE + " TEXT unique ," +
                 COLUMN_AUTHOR + " TEXT ," +
                 COLUMN_FAVOURITE + " INTEGER ," +
                 COLUMN_REPEAT_TIMES + " INTEGER ," +
@@ -149,7 +149,15 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public long size()
     {
         int res = 0;
-        SQLiteDatabase db2 = this.getWritableDatabase();
+        SQLiteDatabase db2 = null ;
+        try
+        {
+            db2 = this.getWritableDatabase();
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
         String query = "SELECT * FROM " + TABLE_PRODUCTS;
         Cursor c = db2.rawQuery(query,null);
         if( c!=null && c.moveToFirst() )
@@ -184,7 +192,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public String getQuoteById( Integer i )
     {
         String res = "";
-        SQLiteDatabase db = this.getWritableDatabase();
+
+        SQLiteDatabase db = null ;
+        try
+        {
+            db = this.getWritableDatabase();
+        }
+        catch (Exception e)
+        {
+            return "";
+        }
+
         String query = "SELECT * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_ID + "=\"" + i.toString() + "\";";
         Cursor c = db.rawQuery(query,null);
         if( c!=null && c.moveToFirst() )
@@ -201,7 +219,18 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public String getAllAuthors()
     {
         String allAuthors = "";
-        SQLiteDatabase db = getWritableDatabase();
+
+        SQLiteDatabase db = null ;
+        try
+        {
+            db = this.getWritableDatabase();
+        }
+        catch (Exception e)
+        {
+            return "";
+        }
+
+
         String query = "SELECT * FROM " + TABLE_PRODUCTS + " WHERE 1 ";
 
         //Cursor point to a location in your results
@@ -228,7 +257,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public ArrayList<String> getAllAuthorsEFF()
     {
         ArrayList<String> allAuthors=new ArrayList<>();
-        SQLiteDatabase db = getWritableDatabase();
+
+        SQLiteDatabase db = null ;
+        try
+        {
+            db = this.getWritableDatabase();
+        }
+        catch (Exception e)
+        {
+            return allAuthors;
+        }
+
         String query = "SELECT * FROM " + TABLE_PRODUCTS + " WHERE 1 ";
 
         //Cursor point to a location in your results
@@ -278,10 +317,28 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return allAuthors;
     }
 
+    public SQLiteDatabase getDB()
+    {
+        SQLiteDatabase db = null ;
+        try
+        {
+            db = this.getWritableDatabase();
+        }
+        catch (Exception e)
+        {
+            Log.i("FLOW", " ERROR in DB ! ");
+        }
+        return db;
+    }
+
     public ArrayList<String> getAllFavAuthorsOPT()
     {
         ArrayList<String> allAuthors = new ArrayList<>();
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = getDB();
+        if( db == null )
+        {
+            return allAuthors;
+        }
         String query = "SELECT * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_FAVOURITE + "=\"" + "1" + "\";";
         //Cursor point to a location in your results
         Cursor c = db.rawQuery(query,null);
@@ -316,7 +373,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public products getProductById( Integer i )
     {
         products P = new products();
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getDB();
+        if( db == null )
+        {
+            return P;
+        }
         String query = "SELECT * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_ID + "=\"" + i.toString() + "\";";
         Cursor c = db.rawQuery(query,null);
         if( c!=null && c.moveToFirst() )
@@ -339,7 +400,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void toggleLike( String  s )
     {
         Log.i("hello : ", "toggleLike: ");
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = getDB();
+        if( db == null )
+        {
+            return ;
+        }
         String temp = "1";
         products P = getProductById(Integer.parseInt(s));
         if( P.favourite == 1 )
@@ -356,6 +421,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     {
 
         SQLiteDatabase db = getWritableDatabase();
+
         String query = "SELECT * FROM " + TABLE_PRODUCTS + " WHERE 1 ";
 
         ArrayList<products> res = new ArrayList<>();

@@ -63,7 +63,7 @@ public class show_all_quotes extends AppCompatActivity {
     {
         for( int i=0;i<input.length;i++ )
         {
-            Log.i("DISPLAYING STRING : ", input[i]  );
+//            Log.i("DISPLAYING STRING : ", input[i]  );
         }
     }
 
@@ -181,29 +181,29 @@ public class show_all_quotes extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Log.i("working","hue -1");
+//            Log.i("working","hue -1");
             return;
         }
 
         @Override
         protected Void doInBackground(Void... params) {
 
-            Log.i("working","hue 0");
+//            Log.i("working","hue 0");
             allContent = handler.getAllContents();
-            Log.i("working","hue 0.5");
+//            Log.i("working","hue 0.5");
             author = handler.getAllAuthorsEFF();
-            Log.i("working","hue 0.9");
+//            Log.i("working","hue 0.9");
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Log.i("working","hue 1");
+//            Log.i("working","hue 1");
             let.setText("");
             RR.setBackgroundResource(R.drawable.single2);
             adapter=new CustomListAdapter(context,author,allContent);
-            Log.i("working","hue 2");
+//            Log.i("working","hue 2");
             list=(ListView)findViewById(R.id.list);
             list.setAdapter(adapter);
         }
@@ -225,19 +225,19 @@ public class show_all_quotes extends AppCompatActivity {
         let = (TextView) findViewById(R.id.let);
         context = this;
 
-        Log.i("working", " 1 ");
+//        Log.i("working", " 1 ");
         RR = (RelativeLayout) findViewById(R.id.RR);
-        Log.i("working", " 2 ");
+//        Log.i("working", " 2 ");
         list = (ListView) findViewById(R.id.list);
 
-        Log.i("working", " 3 ");
+//        Log.i("working", " 3 ");
         new LongOperation().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
     }
     @Override
     public void onBackPressed() {
-        Log.d("CDA", "onBackPressed Called");
+//        Log.d("CDA", "onBackPressed Called");
         Intent setIntent = new Intent(this,MainActivity.class);
         startActivity(setIntent);
         finish();

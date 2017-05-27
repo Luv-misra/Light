@@ -264,6 +264,15 @@
 
     </RelativeLayout>
 
-
+<TextView
+    android:layout_width="match_parent"
+    android:textSize="15dp"
+    android:id="@+id/total"
+    android:layout_alignParentBottom="true"
+    android:padding="5dp"
+    android:textColor="#ffffff"
+    android:gravity="center"
+    android:background="#000000"
+    android:layout_height="wrap_content" />
 
 </RelativeLayout>
