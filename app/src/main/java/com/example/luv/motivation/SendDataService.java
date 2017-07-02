@@ -119,10 +119,6 @@ public class SendDataService extends Service {
                 Log.i("flow", "temp.author1 = "+temp.author1);
                 temp.execute();
             }
-            else
-            {
-//                fillDB();
-            }
         }
     }
 
@@ -188,44 +184,17 @@ public class SendDataService extends Service {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void helper()
-    {
-
-        CountDownTimer c = new CountDownTimer(1000 , 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-
-                fillDB();
-
-            }
-        }.start();
-
-    }
-
-
-
     public void fillDB()
     {
         try
         {
-            if( handlerDB.size() < 8000  )
+            if( handlerDB.size() < 18000  )
             {
 
                 if( isNetworkAvailable() )
                 {
                     new SendDataService.GetQuote().execute(null,null,null);
                 }
-                else
-                {
-//                fillDB();
-                    helper();
-                }
-
             }
         }
         catch (Exception e)
@@ -259,6 +228,7 @@ public class SendDataService extends Service {
         public void onDestroy() {
                 super.onDestroy();
         }
+
         public void getQuote()
         {
             CountDownTimer c = new CountDownTimer(200000 , 1200) {
@@ -273,7 +243,7 @@ public class SendDataService extends Service {
                 @Override
                 public void onFinish()
                 {
-                    if( handlerDB.size() < 8000 )
+                    if( handlerDB.size() <  18000 )
                     {
                         getQuote();
                     }
@@ -295,9 +265,8 @@ public class SendDataService extends Service {
                             Context context  = getApplicationContext();
                             handlerDB = new MyDBHandler(SendDataService.this , null , null , 1);
 
-                            if( handlerDB.size() > 8000 )
+                            if( handlerDB.size() > 18000 )
                             {
-                                //DO NOTHING , BUT STOP Service
                                 stopService(intent);
                             }
                             else {
@@ -327,9 +296,8 @@ public class SendDataService extends Service {
 //                                fillDB();
                                 getQuote();
                             }
-                            if( handlerDB.size() > 8000 )
+                            if( handlerDB.size() > 18000 )
                             {
-                                //DO NOTHING , BUT STOP Service
                                 stopService(intent);
                             }
                         }

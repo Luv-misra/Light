@@ -218,8 +218,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:background="#000000"
-            android:alpha="0.5"
+            android:background="#ffffff"
             android:layout_margin="10dp"
             android:layout_height="match_parent" />
 
@@ -230,10 +229,12 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:padding="10dp"
-            android:background="#999999"
+            android:background="#222222"
             android:inputType="numberSigned"
             android:hint="enter #ID (INTEGER)"
             android:gravity="center"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp" />
 
@@ -244,22 +245,26 @@
             android:text="Hello World!"
             android:layout_margin="12dp"
             android:textSize="30dp"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:gravity="center"
             />
         <ImageView
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:src="@drawable/error"
+            android:paddingRight="13dp"
+            android:paddingTop="13dp"
             android:onClick="cancel_quote"
             android:layout_alignParentRight="true"
-            android:layout_height="60dp" />
+            android:layout_height="50dp" />
 
         <ImageView
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:src="@drawable/done"
+            android:paddingLeft="13dp"
+            android:paddingTop="13dp"
             android:onClick="show_quote_by_id_tick"
             android:layout_alignParentLeft="true"
-            android:layout_height="60dp" />
+            android:layout_height="50dp" />
 
 
     </RelativeLayout>
@@ -274,5 +279,44 @@
     android:gravity="center"
     android:background="#000000"
     android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="70dp"
+        android:padding="5dp"
+        android:src="@drawable/info"
+        android:onClick="giveInfo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_height="70dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:alpha="0.92"
+        android:visibility="gone"
+        android:id="@+id/RL"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:padding="10dp"
+            android:textColor="#6666e5"
+            android:id="@+id/back"
+            android:text="back"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:onClick="no_info"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:id="@+id/LV"
+            android:layout_below="@+id/back"
+            android:layout_height="match_parent">
+        </ListView>
+
+
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

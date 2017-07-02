@@ -24,9 +24,12 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,8 +64,20 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageview;
     RelativeLayout RR_quote;
     boolean happy = true;
+    ListView LV;
+    RelativeLayout RL;
     boolean displaying = false;
     String author="";
+    ArrayAdapter<String> adapter;
+    String data[] = {
+
+            " do try the WIDGET for this app which is the main motive " ,
+            " simply go to the list where you find the widgets of other apps and you will find the widget for this one too. " ,
+            " \n Quotes are brought from the internet and only texts are brought to reduce data usage ",
+            " you can see total numbers of quotes in your device currently on the bottom of your screen ",
+            " hope you like this app ! :) "
+
+    };
     TextView total;
     EditText name;
 
@@ -256,6 +271,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void giveInfo(View v)
+    {
+        RL.setVisibility(View.VISIBLE);
+    }
+    public void no_info(View v)
+    {
+        RL.setVisibility(View.INVISIBLE);
+    }
+
+
     public void setTotal()
     {
         CountDownTimer C = new CountDownTimer( 3000,1000 ) {
@@ -317,6 +342,13 @@ public class MainActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.name);
         handler = new MyDBHandler(MainActivity.this,null,null,1);
         numbers.handler = handler;
+
+
+        LV = (ListView) findViewById(R.id.LV);
+        RL = (RelativeLayout) findViewById(R.id.RL);
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data);
+        LV.setAdapter(adapter);
+
         total = (TextView) findViewById(R.id.total);
 
         setTotal();
