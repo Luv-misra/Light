@@ -25,7 +25,7 @@ package com.example.luv.motivation;
 
 
 public class NetworkUtilities {
-
+//hrllo
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
