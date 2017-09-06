@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/RR"
     android:background="#666666"
-    tools:context="com.example.luv.motivation.MainActivity">
+    tools:context="com.leo.conanme.motivation.MainActivity">
 
     <ImageView
         android:id="@+id/imageView"

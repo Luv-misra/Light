@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.luv.motivation">
+    package="com.leo.conanme.motivation">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.leo.conanme.motivation.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,9 +28,9 @@
             <data android:mimeType="image/*" />
         </intent-filter>
 
-        <service android:name=".SendDataService" />
+        <service android:name="com.leo.conanme.motivation.SendDataService" />
 
-        <receiver android:name=".UserPresentBroadcastReceiver">
+        <receiver android:name="com.leo.conanme.motivation.UserPresentBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.intent.action.SCREEN_OFF" />
@@ -38,7 +38,7 @@
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".SimpleWidgetProvider">
+        <receiver android:name="com.leo.conanme.motivation.SimpleWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -48,11 +48,11 @@
                 android:resource="@xml/simple_widget_info" />
         </receiver>
 
-        <activity android:name=".show_all_quotes" />
-        <activity android:name=".show_all_fav" />
-        <activity android:name=".Show_all_quotes_one_by_one" />
-        <activity android:name=".WelcomeActivity" />
-        <activity android:name=".settings"></activity>
+        <activity android:name="com.leo.conanme.motivation.show_all_quotes" />
+        <activity android:name="com.leo.conanme.motivation.show_all_fav" />
+        <activity android:name="com.leo.conanme.motivation.Show_all_quotes_one_by_one" />
+        <activity android:name="com.leo.conanme.motivation.WelcomeActivity" />
+        <activity android:name="com.leo.conanme.motivation.settings"></activity>
     </application>
 
 </manifest>

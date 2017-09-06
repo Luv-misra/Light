@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/appback3"
     android:layout_height="match_parent"
-    tools:context="com.example.luv.motivation.Show_all_quotes_one_by_one">
+    tools:context="com.leo.conanme.motivation.Show_all_quotes_one_by_one">
 
     <RelativeLayout
         android:layout_width="match_parent"
